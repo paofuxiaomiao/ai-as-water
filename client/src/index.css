@@ -193,6 +193,49 @@
     font-family: "Noto Serif SC", "Source Serif 4", serif;
     font-size: 16px;
   }
+
+  /* Editorial mode - first version style with blue accents */
+  .article-editorial p {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+    font-size: 18px;
+    line-height: 1.85;
+    color: #1A1A1A;
+  }
+
+  .article-editorial ul li {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+    font-size: 18px;
+    line-height: 1.85;
+    color: #1A1A1A;
+  }
+
+  .article-editorial .article-h2 {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    padding-top: 2.5rem;
+    border-top: 3px solid #1E40AF;
+    padding-top: 2rem;
+  }
+
+  .article-editorial .article-quote {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+    font-size: 20px;
+    line-height: 1.8;
+    font-weight: 500;
+    color: #1E40AF;
+    border-left: 3px solid #1E40AF;
+    padding-left: 1.5rem;
+    margin: 2.5rem 0;
+    font-style: italic;
+  }
+
+  .article-editorial strong {
+    color: #1E40AF;
+  }
 }
 
 /* Smooth scroll */

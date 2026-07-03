@@ -81,9 +81,20 @@ function FrameworkCard({ items }: { items: { label: string; desc: string; active
 export default function Home() {
   const [activeSection, setActiveSection] = useState("intro");
   const [readingProgress, setReadingProgress] = useState(0);
-  const [showDecorations, setShowDecorations] = useState(true);
-  const [useSerif, setUseSerif] = useState(false);
+  // 三种视觉模式: 'openai' = 极简黑白, 'decorated' = 当前带装饰图, 'editorial' = 第一版编辑风格
+  const [viewMode, setViewMode] = useState<'openai' | 'decorated' | 'editorial'>('decorated');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const modeLabels = { openai: '极简', decorated: '装饰', editorial: '编辑' };
+  const modeOrder: ('openai' | 'decorated' | 'editorial')[] = ['openai', 'decorated', 'editorial'];
+  const cycleMode = () => {
+    const idx = modeOrder.indexOf(viewMode);
+    setViewMode(modeOrder[(idx + 1) % 3]);
+  };
+
+  const showDecorations = viewMode !== 'openai';
+  const useSerif = viewMode === 'editorial';
+  const isEditorial = viewMode === 'editorial';
 
   const handleScroll = useCallback(() => {
     const scrollTop = window.scrollY;
@@ -114,22 +125,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen transition-colors duration-300 ${isEditorial ? 'bg-white' : 'bg-white'}`}>
       {/* Reading progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 h-[2px]">
-        <div className="h-full bg-[#0d0d0d] transition-[width] duration-75 ease-linear" style={{ width: `${readingProgress}%` }} />
+        <div className={`h-full transition-[width] duration-75 ease-linear ${isEditorial ? 'bg-[#1E40AF]' : 'bg-[#0d0d0d]'}`} style={{ width: `${readingProgress}%` }} />
       </div>
 
       {/* Hero / Title area */}
-      <header className="relative pt-16 pb-12 md:pt-24 md:pb-16">
+      <header className={`relative ${isEditorial ? 'pt-20 pb-16 md:pt-32 md:pb-24' : 'pt-16 pb-12 md:pt-24 md:pb-16'}`}>
         {/* Decorative background - toggleable */}
         {showDecorations && (
-          <div className="absolute inset-0 opacity-[0.04] pointer-events-none">
+          <div className={`absolute inset-0 pointer-events-none ${isEditorial ? 'opacity-[0.08]' : 'opacity-[0.04]'}`}>
             <img src="/manus-storage/hero-water-abstract_3659eae4.png" alt="" className="w-full h-full object-cover" />
           </div>
         )}
 
-        <div className="relative max-w-[680px] mx-auto px-6 text-center">
+        {/* Editorial mode: gradient overlay at bottom */}
+        {isEditorial && (
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+        )}
+
+        <div className={`relative mx-auto px-6 text-center ${isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
           {/* Logo + category */}
           {showDecorations && (
             <motion.div
@@ -138,8 +154,8 @@ export default function Home() {
               transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
               className="flex items-center justify-center gap-3 mb-10"
             >
-              <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className="w-8 h-8" />
-              <span className="text-sm text-[#666]">面向小学教师与大众的 AI 智能体认知开场稿</span>
+              <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`${isEditorial ? 'w-10 h-10' : 'w-8 h-8'}`} />
+              <span className={`text-sm ${isEditorial ? 'text-[#1E40AF]' : 'text-[#666]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</span>
             </motion.div>
           )}
 
@@ -153,22 +169,26 @@ export default function Home() {
             </motion.div>
           )}
 
-          {/* Main title - OpenAI style: very large, bold, centered */}
+          {/* Main title */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-            className="text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] font-black text-[#0d0d0d] leading-[1.15] tracking-tight mb-6"
+            className={`leading-[1.15] tracking-tight mb-6 ${
+              isEditorial
+                ? 'font-serif text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-bold text-[#1A1A1A]'
+                : 'text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] font-black text-[#0d0d0d]'
+            }`}
           >
             人工智能如水
           </motion.h1>
 
-          {/* Author / meta - centered like OpenAI */}
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className="text-[15px] text-[#666] mb-2"
+            className={`text-[15px] mb-2 ${isEditorial ? 'text-[#1E40AF]/70' : 'text-[#666]'}`}
           >
             修订版 v2 · 增补代码智能体拐点与 Harness Engineering
           </motion.p>
@@ -184,36 +204,23 @@ export default function Home() {
       </header>
 
       {/* Toolbar - like OpenAI's listen/share bar */}
-      <div className="max-w-[680px] mx-auto px-6 mb-12">
-        <div className="flex items-center justify-between py-4 border-t border-b border-[#e5e5e5]">
+      <div className={`mx-auto px-6 mb-12 ${isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
+        <div className={`flex items-center justify-between py-4 border-t border-b ${isEditorial ? 'border-[#1E40AF]/20' : 'border-[#e5e5e5]'}`}>
           <div className="flex items-center gap-4">
-            {/* Style toggle */}
+            {/* Mode cycle toggle */}
             <button
-              onClick={() => setShowDecorations(!showDecorations)}
-              className="flex items-center gap-2 text-sm text-[#666] hover:text-[#0d0d0d] transition-colors"
+              onClick={cycleMode}
+              className={`flex items-center gap-2 text-sm transition-colors ${isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                {showDecorations ? (
-                  <path d="M2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8Zm6-3v6M5 8h6" strokeLinecap="round" />
-                ) : (
-                  <path d="M2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8Zm3 0h6" strokeLinecap="round" />
-                )}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <path d="M2 4h12M2 8h8M2 12h10" />
               </svg>
-              <span>{showDecorations ? '极简模式' : '装饰模式'}</span>
-            </button>
-            <div className="w-px h-4 bg-[#e5e5e5]" />
-            {/* Font toggle */}
-            <button
-              onClick={() => setUseSerif(!useSerif)}
-              className="flex items-center gap-2 text-sm text-[#666] hover:text-[#0d0d0d] transition-colors"
-            >
-              <span className={`text-base leading-none ${useSerif ? 'font-serif' : ''}`}>A</span>
-              <span>{useSerif ? '无衬线体' : '衬线体'}</span>
+              <span>切换风格: {modeLabels[viewMode]}</span>
             </button>
           </div>
           <button
             onClick={() => { navigator.clipboard.writeText(window.location.href); }}
-            className="flex items-center gap-2 text-sm text-[#666] hover:text-[#0d0d0d] transition-colors"
+            className={`flex items-center gap-2 text-sm transition-colors ${isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M6 10l4-4M7.5 4.5L9.3 2.7a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.5 8.5M4.5 7.5L2.7 9.3a2 2 0 0 0 0 2.8l1.2 1.2a2 2 0 0 0 2.8 0L8.5 11.5" />
@@ -224,12 +231,12 @@ export default function Home() {
       </div>
 
       {/* Main content: left TOC + right article */}
-      <div className="max-w-[1080px] mx-auto px-6">
+      <div className={`mx-auto px-6 ${isEditorial ? 'max-w-[1120px]' : 'max-w-[1080px]'}`}>
         <div className="flex gap-0 lg:gap-16 relative">
           {/* Left sidebar TOC - desktop */}
           <aside className="hidden lg:block w-[220px] shrink-0">
             <nav className="sticky top-16">
-              <div className="text-sm font-semibold text-[#0d0d0d] mb-5">目录</div>
+              <div className={`text-sm font-semibold mb-5 ${isEditorial ? 'text-[#1E40AF]' : 'text-[#0d0d0d]'}`}>目录</div>
               <ul className="space-y-0">
                 {sections.map((section) => (
                   <li key={section.id}>
@@ -237,7 +244,9 @@ export default function Home() {
                       onClick={() => scrollToSection(section.id)}
                       className={`text-left w-full text-[14px] py-2.5 px-3 rounded-md transition-all duration-200 ${
                         activeSection === section.id
-                          ? "text-[#0d0d0d] font-semibold bg-[#f0f0f0]"
+                          ? isEditorial
+                            ? "text-[#1E40AF] font-semibold bg-[#1E40AF]/5 border-l-2 border-[#1E40AF]"
+                            : "text-[#0d0d0d] font-semibold bg-[#f0f0f0]"
                           : "text-[#666] hover:text-[#0d0d0d] hover:bg-[#f7f7f8]"
                       }`}
                     >
@@ -250,7 +259,7 @@ export default function Home() {
           </aside>
 
           {/* Article body */}
-          <article className={`flex-1 max-w-[680px] pb-32 article-body ${useSerif ? 'article-serif' : ''}`}>
+          <article className={`flex-1 max-w-[680px] pb-32 article-body ${useSerif ? 'article-serif' : ''} ${isEditorial ? 'article-editorial' : ''}`}>
             {/* Section 1 */}
             <AnimatedSection>
               <h2 id="intro" className="article-h2">人工智能如水</h2>
