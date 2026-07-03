@@ -83,6 +83,7 @@ export default function Home() {
   const [readingProgress, setReadingProgress] = useState(0);
   // 三种视觉模式: 'openai' = 极简黑白, 'decorated' = 当前带装饰图, 'editorial' = 第一版编辑风格
   const [viewMode, setViewMode] = useState<'openai' | 'decorated' | 'editorial'>('decorated');
+  const [fontSerif, setFontSerif] = useState(false); // 独立字体切换
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const modeLabels = { openai: '极简', decorated: '装饰', editorial: '编辑' };
@@ -93,7 +94,7 @@ export default function Home() {
   };
 
   const showDecorations = viewMode !== 'openai';
-  const useSerif = viewMode === 'editorial';
+  const useSerif = viewMode === 'editorial' || fontSerif;
   const isEditorial = viewMode === 'editorial';
 
   const handleScroll = useCallback(() => {
@@ -223,6 +224,21 @@ export default function Home() {
                 {modeLabels[mode]}
               </button>
             ))}
+            <div className="w-px h-4 bg-[#e5e5e5] mx-2" />
+            {/* Independent font toggle */}
+            <button
+              onClick={() => setFontSerif(!fontSerif)}
+              className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
+                fontSerif
+                  ? isEditorial
+                    ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
+                    : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
+                  : 'text-[#999] hover:text-[#666]'
+              }`}
+            >
+              <span className={fontSerif ? 'font-serif' : ''}>A</span>
+              <span className="ml-1">{fontSerif ? '无衬线' : '衬线体'}</span>
+            </button>
           </div>
           <button
             onClick={() => { navigator.clipboard.writeText(window.location.href); }}
