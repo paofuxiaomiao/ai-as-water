@@ -176,6 +176,23 @@
     font-size: 15px;
     line-height: 1.8;
   }
+
+  /* Serif mode */
+  .article-serif p,
+  .article-serif ul li {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+    font-size: 17px;
+    line-height: 1.9;
+  }
+
+  .article-serif .article-h2 {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+  }
+
+  .article-serif .article-quote {
+    font-family: "Noto Serif SC", "Source Serif 4", serif;
+    font-size: 16px;
+  }
 }
 
 /* Smooth scroll */

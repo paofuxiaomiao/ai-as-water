@@ -82,6 +82,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("intro");
   const [readingProgress, setReadingProgress] = useState(0);
   const [showDecorations, setShowDecorations] = useState(true);
+  const [useSerif, setUseSerif] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const handleScroll = useCallback(() => {
@@ -185,7 +186,7 @@ export default function Home() {
       {/* Toolbar - like OpenAI's listen/share bar */}
       <div className="max-w-[680px] mx-auto px-6 mb-12">
         <div className="flex items-center justify-between py-4 border-t border-b border-[#e5e5e5]">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Style toggle */}
             <button
               onClick={() => setShowDecorations(!showDecorations)}
@@ -199,6 +200,15 @@ export default function Home() {
                 )}
               </svg>
               <span>{showDecorations ? '极简模式' : '装饰模式'}</span>
+            </button>
+            <div className="w-px h-4 bg-[#e5e5e5]" />
+            {/* Font toggle */}
+            <button
+              onClick={() => setUseSerif(!useSerif)}
+              className="flex items-center gap-2 text-sm text-[#666] hover:text-[#0d0d0d] transition-colors"
+            >
+              <span className={`text-base leading-none ${useSerif ? 'font-serif' : ''}`}>A</span>
+              <span>{useSerif ? '无衬线体' : '衬线体'}</span>
             </button>
           </div>
           <button
@@ -240,7 +250,7 @@ export default function Home() {
           </aside>
 
           {/* Article body */}
-          <article className="flex-1 max-w-[680px] pb-32 article-body">
+          <article className={`flex-1 max-w-[680px] pb-32 article-body ${useSerif ? 'article-serif' : ''}`}>
             {/* Section 1 */}
             <AnimatedSection>
               <h2 id="intro" className="article-h2">人工智能如水</h2>
