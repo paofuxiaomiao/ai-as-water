@@ -127,36 +127,36 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${wideScreen ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
+    <div className={`min-h-screen transition-colors duration-300 bg-white`}>
       {/* Reading progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 h-[2px]">
-        <div className={`h-full transition-[width] duration-75 ease-linear ${wideScreen ? 'bg-white/40' : isEditorial ? 'bg-[#1E40AF]' : 'bg-[#0d0d0d]'}`} style={{ width: `${readingProgress}%` }} />
+        <div className={`h-full transition-[width] duration-75 ease-linear ${wideScreen ? 'bg-[#1E40AF]' : isEditorial ? 'bg-[#1E40AF]' : 'bg-[#0d0d0d]'}`} style={{ width: `${readingProgress}%` }} />
       </div>
 
       {/* Hero / Title area */}
-      <header className={`relative ${wideScreen ? 'pt-12 pb-8 md:pt-20 md:pb-12' : isEditorial ? 'pt-20 pb-16 md:pt-32 md:pb-24' : 'pt-16 pb-12 md:pt-24 md:pb-16'}`}>
+      <header className={`relative ${wideScreen ? 'pt-20 pb-16 md:pt-32 md:pb-24' : isEditorial ? 'pt-20 pb-16 md:pt-32 md:pb-24' : 'pt-16 pb-12 md:pt-24 md:pb-16'}`}>
         {/* Decorative background - toggleable */}
-        {showDecorations && !wideScreen && (
-          <div className={`absolute inset-0 pointer-events-none ${isEditorial ? 'opacity-[0.08]' : 'opacity-[0.04]'}`}>
+        {(showDecorations || wideScreen) && (
+          <div className={`absolute inset-0 pointer-events-none ${wideScreen ? 'opacity-[0.08]' : isEditorial ? 'opacity-[0.08]' : 'opacity-[0.04]'}`}>
             <img src="/manus-storage/hero-water-abstract_3659eae4.png" alt="" className="w-full h-full object-cover" />
           </div>
         )}
 
         {/* Editorial mode: gradient overlay at bottom */}
-        {isEditorial && !wideScreen && (
+        {(isEditorial || wideScreen) && (
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none" />
         )}
 
-        <div className={`relative mx-auto px-6 ${wideScreen ? 'max-w-[900px] text-left' : isEditorial ? 'max-w-[780px] text-center' : 'max-w-[680px] text-center'}`}>
+        <div className={`relative mx-auto px-6 ${wideScreen ? 'max-w-[900px] text-center' : isEditorial ? 'max-w-[780px] text-center' : 'max-w-[680px] text-center'}`}>
           {/* Logo + category */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-            className={`flex items-center gap-3 mb-10 ${wideScreen ? 'justify-start' : 'justify-center'}`}
+            className={`flex items-center gap-3 mb-10 justify-center`}
           >
-            <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`${wideScreen ? 'w-9 h-9' : isEditorial ? 'w-10 h-10' : 'w-8 h-8'}`} />
-            <span className={`text-sm ${wideScreen ? 'text-white/50' : isEditorial ? 'text-[#1E40AF]' : 'text-[#666]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</span>
+            <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`${wideScreen ? 'w-12 h-12' : isEditorial ? 'w-10 h-10' : 'w-8 h-8'}`} />
+            <span className={`text-sm ${wideScreen ? 'text-[#1E40AF]' : isEditorial ? 'text-[#1E40AF]' : 'text-[#666]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</span>
           </motion.div>
 
           {/* Main title */}
@@ -166,7 +166,7 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
             className={`leading-[1.15] tracking-tight mb-6 ${
               wideScreen
-                ? 'text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-black text-white'
+                ? 'font-serif text-[2.5rem] md:text-[4rem] lg:text-[5rem] font-bold text-[#0d0d0d]'
                 : isEditorial
                   ? 'font-serif text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-bold text-[#1A1A1A]'
                   : 'text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] font-black text-[#0d0d0d]'
@@ -180,7 +180,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className={`text-[15px] mb-2 ${wideScreen ? 'text-white/40' : isEditorial ? 'text-[#1E40AF]/70' : 'text-[#666]'}`}
+            className={`text-[15px] mb-2 ${wideScreen ? 'text-[#1E40AF]/70' : isEditorial ? 'text-[#1E40AF]/70' : 'text-[#666]'}`}
           >
             修订版 v2 · 增补代码智能体拐点与 Harness Engineering
           </motion.p>
@@ -188,7 +188,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className={`text-sm ${wideScreen ? 'text-white/30' : 'text-[#999]'}`}
+            className={`text-sm ${wideScreen ? 'text-[#999]' : 'text-[#999]'}`}
           >
             2026.07 · 保留文字张力版
           </motion.p>
@@ -197,7 +197,7 @@ export default function Home() {
 
       {/* Toolbar - like OpenAI's listen/share bar */}
       <div className={`mx-auto px-6 mb-12 ${wideScreen ? 'max-w-[900px]' : isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
-        <div className={`flex items-center justify-between py-4 border-t border-b ${wideScreen ? 'border-white/10' : isEditorial ? 'border-[#1E40AF]/20' : 'border-[#e5e5e5]'}`}>
+        <div className={`flex items-center justify-between py-4 border-t border-b ${wideScreen ? 'border-[#1E40AF]/20' : isEditorial ? 'border-[#1E40AF]/20' : 'border-[#e5e5e5]'}`}>
           <div className="flex items-center gap-1 flex-wrap">
             {/* Three mode buttons */}
             {modeOrder.map((mode) => (
@@ -207,44 +207,44 @@ export default function Home() {
                 className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
                   viewMode === mode
                     ? wideScreen
-                      ? 'bg-white/10 text-white font-semibold'
+                      ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
                       : isEditorial
                         ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
                         : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
                     : wideScreen
-                      ? 'text-white/40 hover:text-white/70'
+                      ? 'text-[#999] hover:text-[#666]'
                       : 'text-[#999] hover:text-[#666]'
                 }`}
               >
                 {modeLabels[mode]}
               </button>
             ))}
-            <div className={`w-px h-4 mx-2 ${wideScreen ? 'bg-white/15' : 'bg-[#e5e5e5]'}`} />
+            <div className={`w-px h-4 mx-2 bg-[#e5e5e5]`} />
             {/* Independent font toggle */}
             <button
               onClick={() => setFontSerif(!fontSerif)}
               className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
                 fontSerif
                   ? wideScreen
-                    ? 'bg-white/10 text-white font-semibold'
+                    ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
                     : isEditorial
                       ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
                       : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
                   : wideScreen
-                    ? 'text-white/40 hover:text-white/70'
+                    ? 'text-[#999] hover:text-[#666]'
                     : 'text-[#999] hover:text-[#666]'
               }`}
             >
               <span className={fontSerif ? 'font-serif' : ''}>A</span>
               <span className="ml-1">{fontSerif ? '无衬线' : '衬线体'}</span>
             </button>
-            <div className={`w-px h-4 mx-2 ${wideScreen ? 'bg-white/15' : 'bg-[#e5e5e5]'}`} />
+            <div className={`w-px h-4 mx-2 bg-[#e5e5e5]`} />
             {/* Wide screen toggle */}
             <button
               onClick={() => setWideScreen(!wideScreen)}
               className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
                 wideScreen
-                  ? 'bg-white/10 text-white font-semibold'
+                  ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
                   : 'text-[#999] hover:text-[#666]'
               }`}
             >
@@ -254,7 +254,7 @@ export default function Home() {
           </div>
           <button
             onClick={() => { navigator.clipboard.writeText(window.location.href); }}
-            className={`flex items-center gap-2 text-sm transition-colors ${wideScreen ? 'text-white/40 hover:text-white/70' : isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
+            className={`flex items-center gap-2 text-sm transition-colors ${wideScreen ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M6 10l4-4M7.5 4.5L9.3 2.7a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.5 8.5M4.5 7.5L2.7 9.3a2 2 0 0 0 0 2.8l1.2 1.2a2 2 0 0 0 2.8 0L8.5 11.5" />
@@ -517,15 +517,15 @@ export default function Home() {
             </AnimatedSection>
 
             {/* Footer */}
-            <footer className={`mt-16 pt-8 border-t ${wideScreen ? 'border-white/10' : 'border-[#e5e5e5]'}`}>
+            <footer className={`mt-16 pt-8 border-t border-[#e5e5e5]`}>
               <div className="flex items-center gap-3 mb-4">
-                <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`w-6 h-6 ${wideScreen ? 'opacity-40' : 'opacity-60'}`} />
+                <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className="w-6 h-6 opacity-60" />
                 <div>
-                  <div className={`text-sm font-semibold ${wideScreen ? 'text-white/80' : 'text-[#0d0d0d]'}`}>人工智能如水</div>
-                  <div className={`text-xs ${wideScreen ? 'text-white/30' : 'text-[#999]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</div>
+                  <div className="text-sm font-semibold text-[#0d0d0d]">人工智能如水</div>
+                  <div className="text-xs text-[#999]">面向小学教师与大众的 AI 智能体认知开场稿</div>
                 </div>
               </div>
-              <div className={`text-xs ${wideScreen ? 'text-white/20' : 'text-[#ccc]'}`}>
+              <div className="text-xs text-[#ccc]">
                 2026.07 · 保留文字张力版
               </div>
             </footer>
