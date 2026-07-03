@@ -265,10 +265,10 @@ export default function Home() {
       </div>
 
       {/* Main content: left TOC + right article */}
-      <div className={`mx-auto px-6 ${wideScreen ? 'max-w-[900px]' : isEditorial ? 'max-w-[1120px]' : 'max-w-[1080px]'}`}>
+      <div className={`mx-auto px-6 ${wideScreen ? 'max-w-[1120px]' : isEditorial ? 'max-w-[1120px]' : 'max-w-[1080px]'}`}>
         <div className="flex gap-0 lg:gap-16 relative">
           {/* Left sidebar TOC - desktop (hidden in widescreen mode) */}
-          <aside className={`w-[220px] shrink-0 ${wideScreen ? 'hidden' : 'hidden lg:block'}`}>
+          <aside className={`w-[220px] shrink-0 hidden lg:block`}>
             <nav className="sticky top-16">
               <div className={`text-sm font-semibold mb-5 ${isEditorial ? 'text-[#1E40AF]' : 'text-[#0d0d0d]'}`}>目录</div>
               <ul className="space-y-0">
