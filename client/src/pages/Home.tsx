@@ -84,6 +84,7 @@ export default function Home() {
   // 三种视觉模式: 'openai' = 极简黑白, 'decorated' = 当前带装饰图, 'editorial' = 第一版编辑风格
   const [viewMode, setViewMode] = useState<'openai' | 'decorated' | 'editorial'>('decorated');
   const [fontSerif, setFontSerif] = useState(false); // 独立字体切换
+  const [wideScreen, setWideScreen] = useState(false); // 大屏/演示模式
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const modeLabels = { openai: '极简', decorated: '装饰', editorial: '编辑' };
@@ -126,49 +127,37 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isEditorial ? 'bg-white' : 'bg-white'}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${wideScreen ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
       {/* Reading progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 h-[2px]">
-        <div className={`h-full transition-[width] duration-75 ease-linear ${isEditorial ? 'bg-[#1E40AF]' : 'bg-[#0d0d0d]'}`} style={{ width: `${readingProgress}%` }} />
+        <div className={`h-full transition-[width] duration-75 ease-linear ${wideScreen ? 'bg-white/40' : isEditorial ? 'bg-[#1E40AF]' : 'bg-[#0d0d0d]'}`} style={{ width: `${readingProgress}%` }} />
       </div>
 
       {/* Hero / Title area */}
-      <header className={`relative ${isEditorial ? 'pt-20 pb-16 md:pt-32 md:pb-24' : 'pt-16 pb-12 md:pt-24 md:pb-16'}`}>
+      <header className={`relative ${wideScreen ? 'pt-12 pb-8 md:pt-20 md:pb-12' : isEditorial ? 'pt-20 pb-16 md:pt-32 md:pb-24' : 'pt-16 pb-12 md:pt-24 md:pb-16'}`}>
         {/* Decorative background - toggleable */}
-        {showDecorations && (
+        {showDecorations && !wideScreen && (
           <div className={`absolute inset-0 pointer-events-none ${isEditorial ? 'opacity-[0.08]' : 'opacity-[0.04]'}`}>
             <img src="/manus-storage/hero-water-abstract_3659eae4.png" alt="" className="w-full h-full object-cover" />
           </div>
         )}
 
         {/* Editorial mode: gradient overlay at bottom */}
-        {isEditorial && (
+        {isEditorial && !wideScreen && (
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent pointer-events-none" />
         )}
 
-        <div className={`relative mx-auto px-6 text-center ${isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
+        <div className={`relative mx-auto px-6 ${wideScreen ? 'max-w-[900px] text-left' : isEditorial ? 'max-w-[780px] text-center' : 'max-w-[680px] text-center'}`}>
           {/* Logo + category */}
-          {showDecorations && (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-              className="flex items-center justify-center gap-3 mb-10"
-            >
-              <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`${isEditorial ? 'w-10 h-10' : 'w-8 h-8'}`} />
-              <span className={`text-sm ${isEditorial ? 'text-[#1E40AF]' : 'text-[#666]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</span>
-            </motion.div>
-          )}
-
-          {!showDecorations && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mb-10"
-            >
-              <span className="text-sm text-[#666]">面向小学教师与大众的 AI 智能体认知开场稿</span>
-            </motion.div>
-          )}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+            className={`flex items-center gap-3 mb-10 ${wideScreen ? 'justify-start' : 'justify-center'}`}
+          >
+            <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`${wideScreen ? 'w-9 h-9' : isEditorial ? 'w-10 h-10' : 'w-8 h-8'}`} />
+            <span className={`text-sm ${wideScreen ? 'text-white/50' : isEditorial ? 'text-[#1E40AF]' : 'text-[#666]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</span>
+          </motion.div>
 
           {/* Main title */}
           <motion.h1
@@ -176,9 +165,11 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
             className={`leading-[1.15] tracking-tight mb-6 ${
-              isEditorial
-                ? 'font-serif text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-bold text-[#1A1A1A]'
-                : 'text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] font-black text-[#0d0d0d]'
+              wideScreen
+                ? 'text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-black text-white'
+                : isEditorial
+                  ? 'font-serif text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-bold text-[#1A1A1A]'
+                  : 'text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] font-black text-[#0d0d0d]'
             }`}
           >
             人工智能如水
@@ -189,7 +180,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className={`text-[15px] mb-2 ${isEditorial ? 'text-[#1E40AF]/70' : 'text-[#666]'}`}
+            className={`text-[15px] mb-2 ${wideScreen ? 'text-white/40' : isEditorial ? 'text-[#1E40AF]/70' : 'text-[#666]'}`}
           >
             修订版 v2 · 增补代码智能体拐点与 Harness Engineering
           </motion.p>
@@ -197,7 +188,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-sm text-[#999]"
+            className={`text-sm ${wideScreen ? 'text-white/30' : 'text-[#999]'}`}
           >
             2026.07 · 保留文字张力版
           </motion.p>
@@ -205,9 +196,9 @@ export default function Home() {
       </header>
 
       {/* Toolbar - like OpenAI's listen/share bar */}
-      <div className={`mx-auto px-6 mb-12 ${isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
-        <div className={`flex items-center justify-between py-4 border-t border-b ${isEditorial ? 'border-[#1E40AF]/20' : 'border-[#e5e5e5]'}`}>
-          <div className="flex items-center gap-1">
+      <div className={`mx-auto px-6 mb-12 ${wideScreen ? 'max-w-[900px]' : isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
+        <div className={`flex items-center justify-between py-4 border-t border-b ${wideScreen ? 'border-white/10' : isEditorial ? 'border-[#1E40AF]/20' : 'border-[#e5e5e5]'}`}>
+          <div className="flex items-center gap-1 flex-wrap">
             {/* Three mode buttons */}
             {modeOrder.map((mode) => (
               <button
@@ -215,34 +206,55 @@ export default function Home() {
                 onClick={() => setViewMode(mode)}
                 className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
                   viewMode === mode
-                    ? isEditorial
-                      ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
-                      : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
-                    : 'text-[#999] hover:text-[#666]'
+                    ? wideScreen
+                      ? 'bg-white/10 text-white font-semibold'
+                      : isEditorial
+                        ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
+                        : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
+                    : wideScreen
+                      ? 'text-white/40 hover:text-white/70'
+                      : 'text-[#999] hover:text-[#666]'
                 }`}
               >
                 {modeLabels[mode]}
               </button>
             ))}
-            <div className="w-px h-4 bg-[#e5e5e5] mx-2" />
+            <div className={`w-px h-4 mx-2 ${wideScreen ? 'bg-white/15' : 'bg-[#e5e5e5]'}`} />
             {/* Independent font toggle */}
             <button
               onClick={() => setFontSerif(!fontSerif)}
               className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
                 fontSerif
-                  ? isEditorial
-                    ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
-                    : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
-                  : 'text-[#999] hover:text-[#666]'
+                  ? wideScreen
+                    ? 'bg-white/10 text-white font-semibold'
+                    : isEditorial
+                      ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
+                      : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
+                  : wideScreen
+                    ? 'text-white/40 hover:text-white/70'
+                    : 'text-[#999] hover:text-[#666]'
               }`}
             >
               <span className={fontSerif ? 'font-serif' : ''}>A</span>
               <span className="ml-1">{fontSerif ? '无衬线' : '衬线体'}</span>
             </button>
+            <div className={`w-px h-4 mx-2 ${wideScreen ? 'bg-white/15' : 'bg-[#e5e5e5]'}`} />
+            {/* Wide screen toggle */}
+            <button
+              onClick={() => setWideScreen(!wideScreen)}
+              className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
+                wideScreen
+                  ? 'bg-white/10 text-white font-semibold'
+                  : 'text-[#999] hover:text-[#666]'
+              }`}
+            >
+              <span className="mr-1">□</span>
+              {wideScreen ? '退出大屏' : '大屏'}
+            </button>
           </div>
           <button
             onClick={() => { navigator.clipboard.writeText(window.location.href); }}
-            className={`flex items-center gap-2 text-sm transition-colors ${isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
+            className={`flex items-center gap-2 text-sm transition-colors ${wideScreen ? 'text-white/40 hover:text-white/70' : isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M6 10l4-4M7.5 4.5L9.3 2.7a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8L11.5 8.5M4.5 7.5L2.7 9.3a2 2 0 0 0 0 2.8l1.2 1.2a2 2 0 0 0 2.8 0L8.5 11.5" />
@@ -253,10 +265,10 @@ export default function Home() {
       </div>
 
       {/* Main content: left TOC + right article */}
-      <div className={`mx-auto px-6 ${isEditorial ? 'max-w-[1120px]' : 'max-w-[1080px]'}`}>
+      <div className={`mx-auto px-6 ${wideScreen ? 'max-w-[900px]' : isEditorial ? 'max-w-[1120px]' : 'max-w-[1080px]'}`}>
         <div className="flex gap-0 lg:gap-16 relative">
-          {/* Left sidebar TOC - desktop */}
-          <aside className="hidden lg:block w-[220px] shrink-0">
+          {/* Left sidebar TOC - desktop (hidden in widescreen mode) */}
+          <aside className={`w-[220px] shrink-0 ${wideScreen ? 'hidden' : 'hidden lg:block'}`}>
             <nav className="sticky top-16">
               <div className={`text-sm font-semibold mb-5 ${isEditorial ? 'text-[#1E40AF]' : 'text-[#0d0d0d]'}`}>目录</div>
               <ul className="space-y-0">
@@ -281,7 +293,7 @@ export default function Home() {
           </aside>
 
           {/* Article body */}
-          <article className={`flex-1 max-w-[680px] pb-32 article-body ${useSerif ? 'article-serif' : ''} ${isEditorial ? 'article-editorial' : ''}`}>
+          <article className={`flex-1 pb-32 article-body ${wideScreen ? 'max-w-[900px] article-widescreen' : 'max-w-[680px]'} ${useSerif ? 'article-serif' : ''} ${isEditorial ? 'article-editorial' : ''}`}>
             {/* Section 1 */}
             <AnimatedSection>
               <h2 id="intro" className="article-h2">人工智能如水</h2>
@@ -505,17 +517,15 @@ export default function Home() {
             </AnimatedSection>
 
             {/* Footer */}
-            <footer className="mt-16 pt-8 border-t border-[#e5e5e5]">
+            <footer className={`mt-16 pt-8 border-t ${wideScreen ? 'border-white/10' : 'border-[#e5e5e5]'}`}>
               <div className="flex items-center gap-3 mb-4">
-                {showDecorations && (
-                  <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className="w-6 h-6 opacity-60" />
-                )}
+                <img src="/manus-storage/logo-water-flow_29ae1617.png" alt="" className={`w-6 h-6 ${wideScreen ? 'opacity-40' : 'opacity-60'}`} />
                 <div>
-                  <div className="text-sm font-semibold text-[#0d0d0d]">人工智能如水</div>
-                  <div className="text-xs text-[#999]">面向小学教师与大众的 AI 智能体认知开场稿</div>
+                  <div className={`text-sm font-semibold ${wideScreen ? 'text-white/80' : 'text-[#0d0d0d]'}`}>人工智能如水</div>
+                  <div className={`text-xs ${wideScreen ? 'text-white/30' : 'text-[#999]'}`}>面向小学教师与大众的 AI 智能体认知开场稿</div>
                 </div>
               </div>
-              <div className="text-xs text-[#ccc]">
+              <div className={`text-xs ${wideScreen ? 'text-white/20' : 'text-[#ccc]'}`}>
                 2026.07 · 保留文字张力版
               </div>
             </footer>
@@ -524,7 +534,7 @@ export default function Home() {
       </div>
 
       {/* Mobile TOC button */}
-      <div className="lg:hidden fixed bottom-6 right-6 z-40">
+      <div className={`fixed bottom-6 right-6 z-40 ${wideScreen ? 'hidden' : 'lg:hidden'}`}>
         <button
           onClick={() => setMobileNavOpen(!mobileNavOpen)}
           className="w-11 h-11 rounded-full bg-[#0d0d0d] text-white shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
