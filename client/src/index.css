@@ -237,48 +237,32 @@
     color: #1E40AF;
   }
 
-  /* Wide screen / presentation mode - white bg, full-width, first-version style */
-  .article-widescreen p {
+  /* First version style (used in wideScreen/大屏 mode) */
+  .article-v1 p {
     font-family: "Noto Serif SC", "Source Serif 4", serif;
-    font-size: 20px;
-    line-height: 1.9;
-    color: #1A1A1A;
-    margin-bottom: 2rem;
-  }
-
-  .article-widescreen ul li {
-    font-family: "Noto Serif SC", "Source Serif 4", serif;
-    font-size: 20px;
-    line-height: 1.9;
+    font-size: 1.125rem;
+    line-height: 1.85;
+    margin-bottom: 1.5em;
     color: #1A1A1A;
   }
 
-  .article-widescreen strong {
-    color: #1E40AF;
-    font-weight: 700;
-  }
-
-  .article-widescreen .article-h2 {
-    font-family: "Noto Serif SC", "Source Serif 4", serif;
-    font-size: 2.5rem;
-    font-weight: 700;
+  .article-v1 strong {
+    font-weight: 600;
     color: #0d0d0d;
-    margin-top: 5rem;
-    margin-bottom: 2rem;
-    padding-top: 3rem;
-    border-top: 3px solid #1E40AF;
   }
 
-  .article-widescreen .article-quote {
+  .article-v1 ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+
+  .article-v1 ul li {
     font-family: "Noto Serif SC", "Source Serif 4", serif;
-    font-size: 22px;
-    line-height: 1.7;
-    color: #1E40AF;
-    border-left: 3px solid #1E40AF;
-    padding-left: 1.5rem;
-    margin: 2.5rem 0;
-    font-style: italic;
-    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.85;
+    margin-bottom: 0.75em;
+    color: #1A1A1A;
   }
 }
 
