@@ -206,17 +206,23 @@ export default function Home() {
       {/* Toolbar - like OpenAI's listen/share bar */}
       <div className={`mx-auto px-6 mb-12 ${isEditorial ? 'max-w-[780px]' : 'max-w-[680px]'}`}>
         <div className={`flex items-center justify-between py-4 border-t border-b ${isEditorial ? 'border-[#1E40AF]/20' : 'border-[#e5e5e5]'}`}>
-          <div className="flex items-center gap-4">
-            {/* Mode cycle toggle */}
-            <button
-              onClick={cycleMode}
-              className={`flex items-center gap-2 text-sm transition-colors ${isEditorial ? 'text-[#1E40AF] hover:text-[#1E40AF]/80' : 'text-[#666] hover:text-[#0d0d0d]'}`}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                <path d="M2 4h12M2 8h8M2 12h10" />
-              </svg>
-              <span>切换风格: {modeLabels[viewMode]}</span>
-            </button>
+          <div className="flex items-center gap-1">
+            {/* Three mode buttons */}
+            {modeOrder.map((mode) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode)}
+                className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 ${
+                  viewMode === mode
+                    ? isEditorial
+                      ? 'bg-[#1E40AF]/10 text-[#1E40AF] font-semibold'
+                      : 'bg-[#f0f0f0] text-[#0d0d0d] font-semibold'
+                    : 'text-[#999] hover:text-[#666]'
+                }`}
+              >
+                {modeLabels[mode]}
+              </button>
+            ))}
           </div>
           <button
             onClick={() => { navigator.clipboard.writeText(window.location.href); }}
