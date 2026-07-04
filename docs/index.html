@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>从图灵测试到具身智能 - AI 教育专栏</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #111111;
+            --muted: #666666;
+            --faint: #8a8a8a;
+            --line: #e1e1df;
+            --soft: #f6f6f4;
+            --soft-2: #ededeb;
+            --shell: 1660px;
+            --page-pad: 0px;
+            --toc: 372px;
+            --gap: 188px;
+            --article: 820px;
+            --sans: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+            --mono: "SF Mono", Menlo, Consolas, monospace;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; color: var(--ink); background: var(--bg); font-family: var(--sans); letter-spacing: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; }
+        .site-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(0,0,0,0.12); background: rgba(255,255,255,0.94); backdrop-filter: blur(18px); }
+        .nav { display: grid; grid-template-columns: max-content minmax(0, 1fr) auto; gap: 42px; align-items: center; max-width: var(--shell); min-height: 76px; margin: 0 auto; padding: 0 var(--page-pad); min-width: 0; }
+        .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 21px; line-height: 1; font-weight: 700; }
+        .brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1.6px solid var(--ink); border-radius: 50%; font-size: 13px; font-weight: 750; }
+        .nav-links { display: flex; justify-content: flex-start; gap: 34px; min-width: 0; max-width: 100%; overflow-x: auto; font-size: 15px; line-height: 22px; font-weight: 560; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-actions { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 560; }
+        .ghost-button { display: inline-flex; align-items: center; min-height: 42px; padding: 0 20px; border-radius: 999px; background: #f4f4f4; }
+        .pill-button { display: inline-flex; align-items: center; min-height: 42px; padding: 0 20px; border-radius: 999px; color: #fff; background: #000; }
+        main { overflow: clip; }
+        .hero { max-width: var(--shell); margin: 0 auto; padding: 104px var(--page-pad) 0; text-align: center; }
+        .kicker { margin: 0 0 24px; color: #5d5d5d; font-size: 15px; line-height: 22px; font-weight: 560; }
+        h1 { max-width: 860px; margin: 0 auto; font-family: var(--sans); font-size: 70px; line-height: 1.04; font-weight: 680; letter-spacing: 0; text-wrap: balance; overflow-wrap: anywhere; }
+        .byline { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px 18px; max-width: 820px; margin: 30px auto 0; color: #2f2f2f; font-size: 17px; line-height: 26px; font-weight: 500; }
+        .byline span { min-width: 0; }
+        .listen-strip { max-width: var(--shell); margin: 92px auto 0; padding: 0 var(--page-pad); }
+        .listen-inner { width: var(--article); margin-left: calc(var(--toc) + var(--gap)); border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; min-height: 76px; color: #111; font-size: 16px; line-height: 24px; font-weight: 620; }
+        .listen-left, .listen-right { display: inline-flex; align-items: center; gap: 14px; }
+        .listen-play { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #f3f3f1; font-size: 14px; line-height: 1; }
+        .listen-time { color: #555; font-weight: 520; }
+        .article-frame { display: grid; grid-template-columns: var(--toc) minmax(0, var(--article)); gap: var(--gap); justify-content: start; max-width: var(--shell); margin: 0 auto; padding: 70px var(--page-pad) 132px; }
+        .toc-rail { position: sticky; top: 104px; align-self: start; max-height: calc(100vh - 126px); overflow: auto; padding-right: 8px; }
+        .toc-title { margin: 0 0 16px; color: var(--ink); font-size: 18px; line-height: 26px; font-weight: 650; }
+        .toc-rail nav { display: grid; gap: 8px; }
+        .toc-rail a { display: block; padding: 13px 20px; border-radius: 8px; color: #747474; font-size: 18px; line-height: 26px; font-weight: 560; }
+        .toc-rail a:hover, .toc-rail a.is-active { color: #111; background: #f3f3f1; }
+        .toc-rail a.is-active { font-weight: 670; }
+        .article-body { width: 100%; }
+        .openai-section { margin: 0; padding: 0 0 74px; scroll-margin-top: 104px; }
+        .openai-section + .openai-section { border-top: 1px solid var(--line); padding-top: 72px; }
+        .openai-section h2 { margin: 0 0 30px; font-family: var(--sans); font-size: 35px; line-height: 1.22; font-weight: 650; letter-spacing: 0; text-wrap: balance; }
+        .openai-section p, .openai-section li { color: #171717; font-family: var(--sans); font-size: 19px; line-height: 1.84; font-weight: 400; }
+        .openai-section p { margin: 0 0 25px; }
+        .openai-section ul, .openai-section ol { margin: 22px 0 30px; padding-left: 1.15em; }
+        .openai-section li { padding-left: 4px; margin-bottom: 12px; }
+        .lead { font-size: 20px !important; line-height: 1.78 !important; }
+        .quote { margin: 40px 0; padding: 0 0 0 24px; border-left: 2px solid var(--ink); color: #111; font-size: 24px; line-height: 1.48; font-weight: 620; letter-spacing: 0; }
+        .fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 42px 0 46px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--line); }
+        .fact-grid div { min-height: 112px; padding: 22px 18px; background: #fff; }
+        .fact-grid strong { display: block; margin-bottom: 14px; font-size: 26px; line-height: 1; font-weight: 740; }
+        .fact-grid span { display: block; color: var(--muted); font-size: 13px; line-height: 19px; font-weight: 560; }
+        .frame-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 38px 0 8px; }
+        .frame-grid-large { grid-template-columns: repeat(2, 1fr); }
+        figure { margin: 0; }
+        .frame-grid figure, .wide-figure { border-top: 1px solid var(--line); padding-top: 16px; }
+        .frame-grid img, .wide-figure img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: grayscale(1) contrast(1.08); background: #efefed; }
+        figcaption { margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 21px; font-weight: 520; }
+        .wide-figure { margin: 40px 0 10px; }
+        .table-scroll { width: 100%; overflow-x: auto; margin: 34px 0 54px; }
+        table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 16px; line-height: 1.55; }
+        th, td { padding: 15px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+        th { color: var(--muted); font-size: 13px; line-height: 1.4; font-weight: 680; }
+        td { color: #181818; font-size: 16px; }
+        code { padding: 0.11em 0.34em; border-radius: 4px; background: #eeeeeb; font-family: var(--mono); font-size: .88em; }
+        .timeline-list { border-top: 1px solid var(--line); margin-top: 18px; }
+        .timeline-list > div { display: grid; grid-template-columns: 144px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+        .timeline-list time { color: var(--muted); font-size: 15px; line-height: 28px; font-weight: 650; }
+        .timeline-list p { margin: 0; font-size: 19px; line-height: 1.62; }
+        .final-band { margin-top: 58px; padding: 38px 0 0; border-top: 1px solid var(--ink); }
+        .final-band h2 { margin: 0 0 18px; font-size: 36px; line-height: 1.18; font-weight: 750; }
+        .final-band p { margin: 0; color: #202020; font-size: 21px; line-height: 1.62; }
+        .small-note { color: var(--muted) !important; font-size: 16px !important; line-height: 1.65 !important; }
+        .footer { border-top: 1px solid var(--line); padding: 34px 28px 52px; color: var(--muted); font-size: 14px; line-height: 22px; }
+        .footer-inner { max-width: var(--shell); margin: 0 auto; padding: 0 var(--page-pad); }
+        .back-top { position: fixed; right: 22px; bottom: 22px; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--ink); border-radius: 50%; color: #fff; background: var(--ink); font-size: 17px; font-weight: 600; }
+        @media (max-width: 1700px) { :root { --shell: auto; --page-pad: 64px; --toc: 372px; --gap: 188px; --article: 820px; } .toc-rail a { font-size: 16px; line-height: 24px; } }
+        @media (max-width: 1280px) { :root { --page-pad: 32px; --toc: 260px; --gap: 56px; --article: 1fr; } .article-frame { grid-template-columns: var(--toc) minmax(0, 1fr); } .listen-inner { width: auto; margin-left: calc(var(--toc) + var(--gap)); } .toc-rail a { padding: 11px 14px; font-size: 15px; line-height: 22px; } .openai-section h2 { font-size: 32px; } .openai-section p, .openai-section li { font-size: 18px; } }
+        @media (max-width: 920px) { .nav { grid-template-columns: minmax(0, 1fr) auto; padding: 0 20px; min-height: 64px; } .nav-links { grid-column: 1 / -1; justify-content: flex-start; overflow-x: auto; padding-bottom: 14px; white-space: nowrap; } .nav-actions .ghost-button { display: none; } .hero { padding: 58px 20px 0; } h1 { font-size: 48px; line-height: 1.08; text-wrap: wrap; word-break: break-word; } .byline { font-size: 15px; } .listen-strip { margin-top: 44px; padding: 0 20px; } .listen-inner { width: auto; margin-left: 0; } .article-frame { display: block; padding: 48px 20px 100px; } .toc-rail { position: static; max-height: none; margin-bottom: 54px; } .toc-rail nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; } .toc-rail a { padding: 12px 0; font-size: 16px; line-height: 23px; } .toc-rail a.is-active { padding-left: 14px; padding-right: 14px; } .openai-section { padding-bottom: 60px; } .openai-section + .openai-section { padding-top: 58px; } .openai-section h2 { font-size: 29px; } .openai-section p, .openai-section li { font-size: 17px; line-height: 1.78; } .lead { font-size: 18px !important; } .quote { font-size: 23px; line-height: 1.42; } .fact-grid { grid-template-columns: repeat(2, 1fr); } .frame-grid { grid-template-columns: 1fr; } .timeline-list > div { grid-template-columns: 1fr; gap: 8px; } .final-band h2 { font-size: 30px; } .back-top { right: 16px; bottom: 16px; } }
+        @media (max-width: 560px) { .nav-actions { display: none; } .toc-rail nav { grid-template-columns: 1fr; } h1 { font-size: 38px; } .byline { display: grid; gap: 7px; } .listen-inner { min-height: 66px; font-size: 14px; } .listen-right { display: none; } .openai-section h2 { font-size: 27px; } .openai-section p, .openai-section li { font-size: 17px; } .quote { padding-left: 18px; font-size: 21px; } .fact-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="site-header" id="top">
+        <nav class="nav" aria-label="页面导航">
+            <a class="brand" href="#top" aria-label="回到顶部"><span class="brand-mark">AI</span><span>AI 专栏</span></a>
+            <div class="nav-links"><a href="#overview">导言</a><a href="#timeline">时间轴</a><a href="#multimodal">智能体</a><a href="#spatial">具身智能</a><a href="#relay">结语</a></div>
+            <div class="nav-actions"><a class="pill-button" href="#overview">开始阅读</a></div>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <p class="kicker">AI 教育专栏 · 2026年7月4日</p>
+            <h1>从图灵测试<br>到具身智能</h1>
+            <div class="byline"><span>人工智能史</span><span>技术与教育</span><span>约 12 分钟阅读</span></div>
+        </section>
+        <section class="listen-strip" aria-label="文章操作">
+            <div class="listen-inner"><div class="listen-left"><span class="listen-play" aria-hidden="true">↓</span><span>阅读全文</span><span class="listen-time">约 12 分钟</span></div><a class="listen-right" href="#timeline"><span aria-hidden="true">↘</span><span>查看时间轴</span></a></div>
+        </section>
+        <div class="article-frame">
+            <aside class="toc-rail" aria-label="目录"><p class="toc-title">目录</p><nav><a href="#overview" class="is-active">导言</a>
+<a href="#turing">图灵测试</a>
+<a href="#dartmouth">达特茅斯</a>
+<a href="#routes">两条路线</a>
+<a href="#trinity">复兴三要素</a>
+<a href="#alexnet">AlexNet</a>
+<a href="#alphago">AlphaGo</a>
+<a href="#transformer">Transformer</a>
+<a href="#race">模型竞赛</a>
+<a href="#multimodal">多模态与智能体</a>
+<a href="#spatial">空间与具身</a>
+<a href="#relay">75 年接力赛</a>
+<a href="#timeline">完整时间轴</a></nav></aside>
+            <article class="article-body"><section class="openai-section" id="overview">
+<h2>导言</h2>
+
+<p class="lead">本文沿着一条清晰的时间线，重新梳理人工智能如何走到今天：从图灵测试，到达特茅斯会议；从符号主义、连接主义和两次 AI 寒冬，到深度学习、AlphaGo、Transformer、ChatGPT，再到多模态、智能体、空间智能与具身智能。</p>
+<p>它的核心线索不是“某一年发生了什么”，而是一个问题怎样不断变形：1950 年，图灵问的是机器能否思考；今天，我们更关心的是 AI 能不能看懂世界、执行任务、进入物理空间，以及当它真的开始替我们思考时，我们该怎样重新安排自己的角色。</p>
+<div class="quote">AI 的 75 年像一场接力赛：每一代人都没有完整答案，但都把问题往前递了一棒。</div>
+<div class="fact-grid" aria-label="专栏概览">
+  <div><strong>12 分钟</strong><span>阅读时间</span></div>
+  <div><strong>12</strong><span>章节脉络</span></div>
+  <div><strong>1950-2025</strong><span>时间跨度</span></div>
+  <div><strong>3</strong><span>主线：模型、工具、身体</span></div>
+</div>
+<div class="frame-grid frame-grid-large">
+  <figure><img src="assets/video-ai-history/mccarthy.jpg" alt="达特茅斯会议与 John McCarthy 关键画面"><figcaption>达特茅斯会议：人工智能正式命名</figcaption></figure>
+  <figure><img src="assets/video-ai-history/alexnet.jpg" alt="AlexNet 关键画面"><figcaption>AlexNet：深度学习从边缘走向主舞台</figcaption></figure>
+  <figure><img src="assets/video-ai-history/alphago.jpg" alt="AlphaGo 关键画面"><figcaption>AlphaGo：AI 不只是模仿人类</figcaption></figure>
+  <figure><img src="assets/video-ai-history/embodied.jpg" alt="具身智能关键画面"><figcaption>具身智能：让模型进入物理世界</figcaption></figure>
+</div>
+
+</section>
+<section class="openai-section" id="turing">
+<h2>图灵测试：把哲学问题改写成产品问题</h2>
+
+<p>这条历史线索从 1950 年的阿兰·图灵讲起。图灵提出了那个后来被反复引用的问题：机器能思考吗？这个问题本来很容易陷进哲学争论，因为“思考”本身就难以下定义。</p>
+<p>图灵的聪明之处在于，他没有纠缠定义，而是换了一个可以测试的版本：如果有一天，一台机器隔着屏幕和人聊天，聊到你分不清对面到底是人还是机器，那么它算不算会思考？这就是后来的图灵测试。</p>
+<p>这一步非常关键。它把“机器有没有灵魂”这样的问题，转成了“机器能不能表现得像人”这样的问题。从这里开始，AI 这门学科的底层气质逐渐确定：它追求的不是灵魂，而是表现。</p>
+
+</section>
+<section class="openai-section" id="dartmouth">
+<h2>达特茅斯：AI 有了正式名字</h2>
+
+<p>1956 年夏天，美国达特茅斯学院举办了一场后来改变世界的会议。会议名称朴素，但影响极大：一群年轻科学家试图讨论机器如何模拟智能。</p>
+<p>在这次会议上，John McCarthy 正式提出并使用了“Artificial Intelligence”这个名称。也就是从这时起，“AI”不再只是零散想法，而成为一门被命名的研究方向。</p>
+<p>这一代研究者身上，既有天真，也有膨胀：他们相信只要给一个夏天和一点经费，就能把人工智能拆明白。今天回头看，这种乐观显得过度，但也正是这种过度乐观，开启了后面几十年的探索。</p>
+<figure class="wide-figure"><img src="assets/video-ai-history/mccarthy.jpg" alt="John McCarthy 和达特茅斯会议相关画面"><figcaption>专栏配图：John McCarthy 与“人工智能”的命名时刻。</figcaption></figure>
+
+</section>
+<section class="openai-section" id="routes">
+<h2>符号主义、连接主义与两次 AI 寒冬</h2>
+
+<p>AI 从早期就分成两条路线。第一条是符号主义：把知识和规则写清楚，手把手告诉机器什么是猫、什么是狗，什么情况应该诊断为某种疾病。这条路的好处是清楚、可解释；坏处是现实世界的常识和例外太多，规则永远写不完。</p>
+<p>第二条是连接主义，也就是神经网络。1958 年，Frank Rosenblatt 做出了感知机。它的想法很接近今天的深度学习：不要把全部规则写死，而是让机器从数据中学习。</p>
+<p>但当时的算法、数据和算力都不成熟。1969 年，Marvin Minsky 和 Seymour Papert 的《Perceptrons》系统指出了单层感知机的限制，神经网络方向随之遇冷，第一次 AI 寒冬到来。</p>
+<p>1980 年代，专家系统重新点燃 AI 热潮。它把行业专家的经验塞进电脑，在医疗诊断、设备维修、金融决策中一度显得很有希望。但规则越写越多，维护越来越困难，现实环境稍微变化，系统就容易失效。1980 年代末到 1990 年代初，第二次 AI 寒冬再次到来。</p>
+<div class="table-scroll"><table><thead><tr><th>路线</th><th>核心做法</th><th>优势</th><th>瓶颈</th></tr></thead><tbody><tr><td>符号主义</td><td>人工写规则和知识库。</td><td>逻辑清晰、便于解释。</td><td>规则无法覆盖真实世界。</td></tr><tr><td>连接主义</td><td>让模型从数据中学习。</td><td>更接近今天的深度学习。</td><td>早期缺少算法、数据和算力。</td></tr><tr><td>专家系统</td><td>把专家经验固化成程序。</td><td>短期商业价值明显。</td><td>维护昂贵，环境变化后失效。</td></tr></tbody></table></div>
+
+</section>
+<section class="openai-section" id="trinity">
+<h2>AI 复兴的三要素：算法、数据、算力</h2>
+
+<p>AI 重新火起来，关键在三件事：算法、数据和算力。三者缺一不可。</p>
+<p>算法层面，1986 年 Geoffrey Hinton、David Rumelhart 和 Ronald Williams 推动反向传播重新进入核心视野。这可以理解为“机器终于学会复盘”：做错之后能知道错在哪里，并调整内部参数。</p>
+<p>随后，Yann LeCun 长期推动卷积神经网络路线，并做出 LeNet-5，用于识别手写数字。它后来被银行和邮政系统采用，这意味着神经网络不再只是论文里的名词，而开始进入真实业务。</p>
+<p>数据层面，李飞飞推动 ImageNet 项目，用上千万张图片和上万个类别，为计算机视觉提供了巨大的训练场。算力层面，NVIDIA 的 GPU 和 CUDA 让原本用来渲染游戏的芯片，成为训练神经网络的关键基础设施。</p>
+<figure class="wide-figure"><img src="assets/video-ai-history/backprop.jpg" alt="反向传播和神经网络发展关键画面"><figcaption>算法、数据和算力同时到位之后，神经网络才真正具备起飞条件。</figcaption></figure>
+
+</section>
+<section class="openai-section" id="alexnet">
+<h2>2012：AlexNet 把深度学习推上主舞台</h2>
+
+<p>如果在 AI 历史里挑一个关键年份，2012 年一定绕不开。那一年，ImageNet 比赛上，Geoffrey Hinton 带着 Alex Krizhevsky 和 Ilya Sutskever 交出了 AlexNet。</p>
+<p>AlexNet 做的是图像识别，任务看起来并不夸张，但结果非常夸张：它不是小胜，而是在传统方法面前形成断崖式领先。更重要的是，它跑在 NVIDIA GPU 上训练出来，同时验证了三件事：神经网络并非不行，ImageNet 这样的海量数据确实有用，GPU 会成为 AI 时代的关键工具。</p>
+<p>从这一年开始，AI 圈的重心集体转向深度学习。</p>
+<figure class="wide-figure"><img src="assets/video-ai-history/alexnet.jpg" alt="AlexNet 团队和 ImageNet 关键画面"><figcaption>2012 年的 AlexNet 是深度学习进入主流的标志性节点。</figcaption></figure>
+
+</section>
+<section class="openai-section" id="alphago">
+<h2>AlphaGo：AI 不只是模仿人类</h2>
+
+<p>深度学习起飞后，AI 先在图像和语音领域横扫。但真正让全球普通人意识到“事情不对了”的，是 AlphaGo。</p>
+<p>DeepMind 2010 年在伦敦成立，2014 年被 Google 收购。2016 年 3 月，AlphaGo 以 4:1 击败世界顶尖围棋选手李世石。围棋的复杂度极高，不能靠简单暴力搜索解决。在那之前，很多人认为 AI 想战胜顶尖棋手至少还要十年。</p>
+<p>AlphaGo 与李世石的对局中，最著名的一手是 Move 37。那一步棋在当时让许多围棋高手困惑，因为按人类经验并不该下在那里；但事后复盘，它被视为极具创造性的选择。那一刻，很多人第一次真切感到：AI 可能不只是在模仿人类，它也可能走出一条人类没有走过的路。</p>
+<figure class="wide-figure"><img src="assets/video-ai-history/alphago.jpg" alt="AlphaGo 与李世石对局关键画面"><figcaption>AlphaGo 让公众第一次集中感受到：AI 可能拥有不同于人类经验的搜索方式。</figcaption></figure>
+
+</section>
+<section class="openai-section" id="transformer">
+<h2>Transformer、GPT 与 ChatGPT</h2>
+
+<p>真正让 AI 进入每个普通人生活的最后一块拼图，是 Transformer。2017 年，Google 发表论文《Attention Is All You Need》，提出 Transformer 架构。它的重要性可以用一句话概括：今天很多大模型往根上追，都离不开它。</p>
+<p>Transformer 特别适合并行训练，能够吃下巨大的数据量。模型越大、数据越多，效果越可能出现跃迁式提升，这为后来“大力出奇迹”的路线铺好了路。</p>
+<p>OpenAI 把这条路线推到大众面前。2018 年 GPT-1 发布，2019 年 GPT-2 发布，2020 年 GPT-3 发布。2022 年 11 月 30 日，ChatGPT 上线。它把 GPT-3.5 包装成一个聊天框，五天用户突破 100 万，两个月突破 1 亿，成为消费级 AI 的分水岭。</p>
+<p>这一天也成为人类与 AI 关系的转折：从此，AI 不再只是论文、实验室或行业工具，而进入每个人的手机、电脑和日常工作。</p>
+<figure class="wide-figure"><img src="assets/video-ai-history/gpt.jpg" alt="GPT 和 ChatGPT 时间线关键画面"><figcaption>ChatGPT 把大模型从技术圈拉到了普通人的日常界面里。</figcaption></figure>
+
+</section>
+<section class="openai-section" id="race">
+<h2>大模型竞赛：下一代平台的争夺</h2>
+
+<p>ChatGPT 爆发后，整个行业进入军备竞赛。几乎所有大厂都意识到：如果 PC 和移动互联网定义了上一代平台，那么大模型可能正在定义下一代平台。</p>
+<p>国外阵营里，Google 推出 Gemini，Anthropic 推出 Claude，Meta 选择开源路线推出 Llama，xAI 推出 Grok。国内同样热闹：百度文心、阿里通义千问、字节豆包、腾讯元宝、月之暗面 Kimi、DeepSeek 等模型不断进入公众视野。</p>
+<p>那段时间，几乎每隔一段时间就会有公司宣布自己是“最好的模型”，并拿出新的 benchmark 数据。更重要的是：大模型已经不只是单个工具，而开始变成新的基础设施和生态入口。</p>
+
+</section>
+<section class="openai-section" id="multimodal">
+<h2>多模态与智能体：AI 开始长出感官和手脚</h2>
+
+<p>大模型光会说话还不够。很快，它开始具备视觉、图像、视频和语音能力。GPT、Gemini、Claude 能看图；Sora、可灵等视频模型能从文字生成动态画面；Midjourney、Stable Diffusion、FLUX 让普通人也能调用视觉创作能力；语音模型开始生成带情绪和语调的音频。</p>
+<p>这一步就是多模态：以前的 AI 像一个会打字的大脑，现在它开始有眼睛、耳朵、嘴和手。</p>
+<p>2024 到 2025 年，行业焦点又从“大模型”转向“智能体”。过去使用 ChatGPT 像是和聊天框对话，你问一句，它答一句；智能体则是你给它一个目标，它自己拆任务、打开浏览器、查资料、写代码、调用工具，最后把结果交给你。</p>
+<p>这意味着用户从“使用者”变成“老板”。如果大模型是 AI 的大脑，智能体就是给大脑装上手和脚。</p>
+<figure class="wide-figure"><img src="assets/video-ai-history/multimodal.jpg" alt="多模态 AI 和智能体关键画面"><figcaption>多模态和智能体把 AI 从“回答问题”推向“完成任务”。</figcaption></figure>
+
+</section>
+<section class="openai-section" id="spatial">
+<h2>空间智能与具身智能：从文字世界走向物理世界</h2>
+
+<p>就在大家卷语言模型时，另一个关键方向，是李飞飞提出的空间智能。它的核心判断是：语言是人类的发明，但空间不是。现在的大语言模型很强，但它本质上仍然生活在文字里。</p>
+<p>真实世界是三维的，有重力、有物理规则，也有因果关系。如果 AI 真的要开车、做手术、搬东西、陪伴老人，它必须理解空间，像婴儿一样学习感知三维世界。</p>
+<p>空间智能再往前一步，就是具身智能：把 AI 放进机器人身体里。Tesla Optimus、Figure AI、1X，以及国内机器人团队都在推动类似方向。大模型解决的是“脑子”的问题，下一步最缺的是能行动的身体。</p>
+<div class="frame-grid">
+  <figure><img src="assets/video-ai-history/spatial.jpg" alt="空间智能关键画面"><figcaption>空间智能：让 AI 理解三维世界和物理规则。</figcaption></figure>
+  <figure><img src="assets/video-ai-history/embodied.jpg" alt="具身智能机器人关键画面"><figcaption>具身智能：让 AI 拥有能行动的身体。</figcaption></figure>
+</div>
+
+</section>
+<section class="openai-section" id="relay">
+<h2>结尾：问题已经变了</h2>
+
+<p>回头看，这段历史像一场 75 年的接力赛：图灵提出问题，McCarthy 给学科命名；早期研究者经历两次寒冬，验证了哪些路走不通；Hinton 让深度学习重新回到舞台中央，Yann LeCun 让神经网络进入现实业务，李飞飞用 ImageNet 搭起训练场，NVIDIA 用 GPU 和 CUDA 成为 AI 时代的电力与铁路。</p>
+<p>随后，DeepMind 的 AlphaGo 告诉世界 AI 已经不是玩具；Google 的 Transformer 打下大模型地基；OpenAI 的 GPT 和 ChatGPT 把 AI 塞进每个人的手机；大厂内卷让 AI 成为新基础设施；智能体让 AI 有了手脚；空间智能和具身智能正在把 AI 带向真实物理世界。</p>
+<p>于是，图灵在 1950 年提出的“机器能思考吗”，今天仍在被回答。但问题已经不只是机器能不能通过聊天测试，而是它能不能看懂世界、替我们做决定、进入物理空间；如果它真的比我们聪明，我们又该怎么办。</p>
+<div class="final-band"><h2>从“能不能思考”，到“替我们思考什么”。</h2><p>这段历史真正留下的不是一串年份，而是一种时代感：AI 已经从论文里的思辨，变成每个人手机、电脑和工位上的现实。</p></div>
+
+</section>
+<section class="openai-section" id="timeline">
+<h2>完整时间轴</h2>
+
+<div class="timeline-list">
+  <div><time>00:00-00:43</time><p><strong>图灵测试。</strong> 把“机器能思考吗”改写成可观察、可测试的表现问题。</p></div>
+  <div><time>00:43-01:30</time><p><strong>达特茅斯会议。</strong> John McCarthy 正式命名人工智能，早期研究者带着强烈乐观进入新领域。</p></div>
+  <div><time>01:30-03:02</time><p><strong>两条路线和两次寒冬。</strong> 符号主义、连接主义、感知机、专家系统依次登场，也依次暴露限制。</p></div>
+  <div><time>03:02-05:20</time><p><strong>算法、数据、算力。</strong> 反向传播、LeNet-5、ImageNet、GPU 与 CUDA 构成深度学习复兴的底座。</p></div>
+  <div><time>05:20-06:17</time><p><strong>AlexNet。</strong> 2012 年 ImageNet 比赛验证深度学习、大数据和 GPU 的组合威力。</p></div>
+  <div><time>06:17-07:25</time><p><strong>AlphaGo。</strong> 以 4:1 击败李世石，Move 37 让人看到 AI 可能走出非人类路径。</p></div>
+  <div><time>07:25-09:31</time><p><strong>Transformer 与 ChatGPT。</strong> 从 Attention 到 GPT，再到 ChatGPT 上线，大模型进入大众生活。</p></div>
+  <div><time>09:31-10:53</time><p><strong>大模型竞赛。</strong> Google、Anthropic、Meta、xAI 和国内模型团队进入平台级竞争。</p></div>
+  <div><time>10:53-12:02</time><p><strong>多模态与智能体。</strong> AI 获得视觉、语音、图像、视频和工具调用能力，开始从回答问题走向完成任务。</p></div>
+  <div><time>12:02-13:04</time><p><strong>空间智能与具身智能。</strong> AI 从文字世界走向三维世界和机器人身体。</p></div>
+  <div><time>13:04-14:46</time><p><strong>结尾复盘。</strong> 75 年接力赛把问题从“机器能不能思考”推向“我们想让它替我们思考什么”。</p></div>
+</div>
+
+</section></article>
+        </div>
+    </main>
+    <footer class="footer"><div class="footer-inner">AI 教育专栏。本文以公开技术史脉络为基础，梳理人工智能从概念、模型到智能体与具身系统的演进。</div></footer>
+    <a class="back-top" href="#top" aria-label="回到顶部">↑</a>
+    <script>
+        const tocLinks = Array.from(document.querySelectorAll('.toc-rail a'));
+        const sections = tocLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+        const setActive = (id) => { tocLinks.forEach((link) => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`)); };
+        const observer = new IntersectionObserver((entries) => {
+            const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+            if (visible[0]) setActive(visible[0].target.id);
+        }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.2, 0.6] });
+        sections.forEach((section) => observer.observe(section));
+    </script>
+</body>
+</html>
