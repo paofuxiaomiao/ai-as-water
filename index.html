@@ -37,6 +37,107 @@
         text-decoration: none;
       }
 
+      .welcome-gate {
+        min-height: 76vh;
+        display: grid;
+        place-items: center;
+        padding: 120px 24px 72px;
+        color: #111111;
+        background:
+          radial-gradient(circle at 50% 10%, rgba(30, 64, 175, 0.07), transparent 34%),
+          linear-gradient(180deg, #ffffff 0%, #f7f8f8 100%);
+      }
+
+      .welcome-shell {
+        width: min(1120px, 100%);
+      }
+
+      .welcome-kicker {
+        margin: 0 0 16px;
+        color: rgba(17, 17, 17, 0.54);
+        font: 650 14px/1.5 "Noto Sans SC", system-ui, sans-serif;
+        text-align: center;
+      }
+
+      .welcome-title {
+        max-width: 760px;
+        margin: 0 auto 18px;
+        color: #111111;
+        font: 780 clamp(40px, 6vw, 76px)/1.04 "Noto Sans SC", system-ui, sans-serif;
+        letter-spacing: 0;
+        text-align: center;
+      }
+
+      .welcome-note {
+        max-width: 650px;
+        margin: 0 auto 44px;
+        color: rgba(17, 17, 17, 0.62);
+        font: 430 18px/1.75 "Noto Sans SC", system-ui, sans-serif;
+        text-align: center;
+      }
+
+      .welcome-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .welcome-card {
+        min-height: 178px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 26px;
+        padding: 24px;
+        border: 1px solid rgba(17, 17, 17, 0.1);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.07);
+        text-decoration: none;
+        transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .welcome-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(30, 64, 175, 0.28);
+        box-shadow: 0 22px 70px rgba(15, 23, 42, 0.1);
+      }
+
+      .welcome-card.is-primary {
+        background: #111111;
+        color: #ffffff;
+      }
+
+      .welcome-card-kicker {
+        color: rgba(17, 17, 17, 0.48);
+        font: 700 12px/1 "Noto Sans SC", system-ui, sans-serif;
+      }
+
+      .welcome-card.is-primary .welcome-card-kicker,
+      .welcome-card.is-primary .welcome-card-text {
+        color: rgba(255, 255, 255, 0.68);
+      }
+
+      .welcome-card-title {
+        margin: 14px 0 10px;
+        font: 760 25px/1.2 "Noto Sans SC", system-ui, sans-serif;
+      }
+
+      .welcome-card-text {
+        margin: 0;
+        color: rgba(17, 17, 17, 0.62);
+        font: 430 15px/1.7 "Noto Sans SC", system-ui, sans-serif;
+      }
+
+      .welcome-card-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        color: inherit;
+        font: 700 14px/1 "Noto Sans SC", system-ui, sans-serif;
+      }
+
       .column-link.is-current {
         color: #111111;
         background: rgba(255, 255, 255, 0.96);
@@ -59,6 +160,24 @@
           height: 34px;
           padding: 0 12px;
         }
+
+        .welcome-gate {
+          min-height: auto;
+          padding: 112px 16px 48px;
+        }
+
+        .welcome-title {
+          text-align: left;
+        }
+
+        .welcome-kicker,
+        .welcome-note {
+          text-align: left;
+        }
+
+        .welcome-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
     <script type="module" crossorigin src="/ai-as-water/assets/index-BcK_KmvI.js"></script>
@@ -71,6 +190,39 @@
       <a class="column-link" href="./ai-history.html">AI 发展史</a>
       <a class="column-link" href="./video-first6.html">前 6 分钟</a>
     </nav>
+    <section class="welcome-gate" aria-labelledby="welcome-title">
+      <div class="welcome-shell">
+        <p class="welcome-kicker">AI 教育展示站</p>
+        <h1 class="welcome-title" id="welcome-title">欢迎进入三份可分享的 AI 教育材料</h1>
+        <p class="welcome-note">从主题演讲，到 AI 发展史，再到视频前 6 分钟的教学转写，三份内容可以独立阅读，也可以作为一组培训材料连续使用。</p>
+        <div class="welcome-grid">
+          <a class="welcome-card is-primary" href="#root">
+            <div>
+              <div class="welcome-card-kicker">01 / 主讲稿</div>
+              <div class="welcome-card-title">人工智能如水</div>
+              <p class="welcome-card-text">围绕 AI 智能体、教师角色与 Harness Engineering 的完整演讲展示。</p>
+            </div>
+            <span class="welcome-card-action">进入主页面 <span>↓</span></span>
+          </a>
+          <a class="welcome-card" href="./ai-history.html">
+            <div>
+              <div class="welcome-card-kicker">02 / 专栏</div>
+              <div class="welcome-card-title">AI 发展史</div>
+              <p class="welcome-card-text">从图灵测试到具身智能，按时间线梳理 AI 如何走到今天。</p>
+            </div>
+            <span class="welcome-card-action">打开专栏 <span>→</span></span>
+          </a>
+          <a class="welcome-card" href="./video-first6.html">
+            <div>
+              <div class="welcome-card-kicker">03 / 视频课</div>
+              <div class="welcome-card-title">前 6 分钟</div>
+              <p class="welcome-card-text">把视频里的 AI 工具课整理成面向教师的讲解页面，含原视频片段。</p>
+            </div>
+            <span class="welcome-card-action">查看视频页 <span>→</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
     <div id="root"></div>
   </body>
 

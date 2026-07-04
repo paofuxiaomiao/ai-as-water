@@ -551,9 +551,18 @@
             .prompt-box { font-size: 15px; }
             .checklist li { grid-template-columns: 24px 1fr; }
         }
+        .site-switcher { position: fixed; top: 84px; right: 18px; z-index: 80; display: flex; flex-direction: column; gap: 8px; }
+        .site-switcher a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 13px; border: 1px solid rgba(0,0,0,0.12); border-radius: 999px; background: rgba(255,255,255,0.9); color: rgba(0,0,0,0.68); box-shadow: 0 10px 30px rgba(0,0,0,0.08); backdrop-filter: blur(14px); font-size: 13px; font-weight: 680; }
+        .site-switcher a.is-current { background: #111; border-color: #111; color: #fff; }
+        @media (max-width: 920px) { .site-switcher { top: auto; right: 14px; bottom: 18px; } }
     </style>
 </head>
 <body>
+    <nav class="site-switcher" aria-label="站点页面切换">
+        <a href="./">人工智能如水</a>
+        <a href="./ai-history.html">AI 发展史</a>
+        <a class="is-current" href="./video-first6.html">前 6 分钟</a>
+    </nav>
     <header class="site-header" id="top">
         <nav class="nav" aria-label="页面导航">
             <a class="brand" href="#top" aria-label="回到顶部"><span class="brand-mark">AI</span><span>Teacher Flow</span></a>

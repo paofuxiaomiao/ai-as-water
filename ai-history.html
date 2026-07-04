@@ -95,9 +95,18 @@
         @media (max-width: 1280px) { :root { --page-pad: 32px; --toc: 260px; --gap: 56px; --article: 1fr; } .article-frame { grid-template-columns: var(--toc) minmax(0, 1fr); } .listen-inner { width: auto; margin-left: calc(var(--toc) + var(--gap)); } .toc-rail a { padding: 11px 14px; font-size: 15px; line-height: 22px; } .openai-section h2 { font-size: 32px; } .openai-section p, .openai-section li { font-size: 18px; } }
         @media (max-width: 920px) { .nav { grid-template-columns: minmax(0, 1fr) auto; padding: 0 20px; min-height: 64px; } .nav-links { grid-column: 1 / -1; justify-content: flex-start; overflow-x: auto; padding-bottom: 14px; white-space: nowrap; } .nav-actions .ghost-button { display: none; } .hero { padding: 58px 20px 0; } h1 { font-size: 48px; line-height: 1.08; text-wrap: wrap; word-break: break-word; } .byline { font-size: 15px; } .listen-strip { margin-top: 44px; padding: 0 20px; } .listen-inner { width: auto; margin-left: 0; } .article-frame { display: block; padding: 48px 20px 100px; } .toc-rail { position: static; max-height: none; margin-bottom: 54px; } .toc-rail nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; } .toc-rail a { padding: 12px 0; font-size: 16px; line-height: 23px; } .toc-rail a.is-active { padding-left: 14px; padding-right: 14px; } .openai-section { padding-bottom: 60px; } .openai-section + .openai-section { padding-top: 58px; } .openai-section h2 { font-size: 29px; } .openai-section p, .openai-section li { font-size: 17px; line-height: 1.78; } .lead { font-size: 18px !important; } .quote { font-size: 23px; line-height: 1.42; } .fact-grid { grid-template-columns: repeat(2, 1fr); } .frame-grid { grid-template-columns: 1fr; } .timeline-list > div { grid-template-columns: 1fr; gap: 8px; } .final-band h2 { font-size: 30px; } .back-top { right: 16px; bottom: 16px; } }
         @media (max-width: 560px) { .nav-actions { display: none; } .toc-rail nav { grid-template-columns: 1fr; } h1 { font-size: 38px; } .byline { display: grid; gap: 7px; } .listen-inner { min-height: 66px; font-size: 14px; } .listen-right { display: none; } .openai-section h2 { font-size: 27px; } .openai-section p, .openai-section li { font-size: 17px; } .quote { padding-left: 18px; font-size: 21px; } .fact-grid { grid-template-columns: 1fr; } }
+        .site-switcher { position: fixed; top: 84px; right: 18px; z-index: 80; display: flex; flex-direction: column; gap: 8px; }
+        .site-switcher a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 13px; border: 1px solid rgba(0,0,0,0.12); border-radius: 999px; background: rgba(255,255,255,0.9); color: rgba(0,0,0,0.68); box-shadow: 0 10px 30px rgba(0,0,0,0.08); backdrop-filter: blur(14px); font-size: 13px; font-weight: 680; }
+        .site-switcher a.is-current { background: #111; border-color: #111; color: #fff; }
+        @media (max-width: 920px) { .site-switcher { top: auto; right: 14px; bottom: 18px; } }
     </style>
 </head>
 <body>
+    <nav class="site-switcher" aria-label="站点页面切换">
+        <a href="./">人工智能如水</a>
+        <a class="is-current" href="./ai-history.html">AI 发展史</a>
+        <a href="./video-first6.html">前 6 分钟</a>
+    </nav>
     <header class="site-header" id="top">
         <nav class="nav" aria-label="页面导航">
             <a class="brand" href="#top" aria-label="回到顶部"><span class="brand-mark">AI</span><span>AI 专栏</span></a>
