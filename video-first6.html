@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>给老师看的 AI 工具课 - OpenAI 参考版</title>
+    <title>Prompt 回顾 - 给老师看的 AI 工具课</title>
     <style>
         :root {
             --bg: #ffffff;
@@ -551,18 +551,9 @@
             .prompt-box { font-size: 15px; }
             .checklist li { grid-template-columns: 24px 1fr; }
         }
-        .site-switcher { position: fixed; top: 84px; right: 18px; z-index: 80; display: flex; flex-direction: column; gap: 8px; }
-        .site-switcher a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 13px; border: 1px solid rgba(0,0,0,0.12); border-radius: 999px; background: rgba(255,255,255,0.9); color: rgba(0,0,0,0.68); box-shadow: 0 10px 30px rgba(0,0,0,0.08); backdrop-filter: blur(14px); font-size: 13px; font-weight: 680; }
-        .site-switcher a.is-current { background: #111; border-color: #111; color: #fff; }
-        @media (max-width: 920px) { .site-switcher { top: auto; right: 14px; bottom: 18px; } }
     </style>
 </head>
 <body>
-    <nav class="site-switcher" aria-label="站点页面切换">
-        <a href="./">人工智能如水</a>
-        <a href="./ai-history.html">AI 发展史</a>
-        <a class="is-current" href="./video-first6.html">前 6 分钟</a>
-    </nav>
     <header class="site-header" id="top">
         <nav class="nav" aria-label="页面导航">
             <a class="brand" href="#top" aria-label="回到顶部"><span class="brand-mark">AI</span><span>Teacher Flow</span></a>
@@ -573,29 +564,29 @@
                 <a href="#templates">模板</a>
                 <a href="#workflow">工作流</a>
             </div>
-            <div class="nav-actions"><span>简体中文</span><a class="pill-button" href="#clip">查看片段</a></div>
+            <div class="nav-actions"><span>简体中文</span><a class="pill-button" href="#clip">参考片段</a></div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <p class="kicker">教师培训稿 · 基于视频前 6 分钟重写</p>
-            <h1>给老师看的 AI 工具课：从提示词到教学工作流</h1>
-            <p class="hero-subtitle">这不是逐字稿，而是一份可以对外分享的讲解页面：把视频里的 AI 工程概念，翻译成老师能理解、能判断、能直接使用的教学语言。</p>
-            <div class="byline"><span>适用对象：一线教师、教研组、校本培训</span><span>重点：提示词、边界、任务设计</span><span>时长素材：00:00-06:00</span></div>
+            <p class="kicker">Prompt 回顾 · 教师可用版</p>
+            <h1>给老师看的 AI 工具课：Prompt 回顾</h1>
+            <p class="hero-subtitle">把提示词、边界和任务设计整理成一份教师可直接使用的讲解页：少一点术语，多一点可判断、可复制、可落地的教学语言。</p>
+            <div class="byline"><span>适用对象：一线教师、教研组、校本培训</span><span>重点：Prompt、边界、任务设计</span><span>形式：工具回顾与教学模板</span></div>
         </section>
 
         <section class="listen-strip" aria-label="素材入口">
             <div class="listen-inner">
-                <div class="listen-left"><span class="listen-play" aria-hidden="true">▶</span><span>原视频片段</span><span class="listen-time">06:00</span></div>
+                <div class="listen-left"><span class="listen-play" aria-hidden="true">▶</span><span>参考片段</span><span class="listen-time">06:00</span></div>
                 <div class="listen-right"><span aria-hidden="true">↗</span><span>分享</span></div>
             </div>
         </section>
 
-        <section class="media-shell" id="clip" aria-label="视频片段">
+        <section class="media-shell" id="clip" aria-label="参考片段">
             <div class="media-card">
                 <video controls preload="metadata" poster="assets/video_first6_ai_builder.jpg"><source src="assets/videoplayback_first6.mp4" type="video/mp4"></video>
-                <p class="caption">视频只作为内容来源。下面的正文已改写成面向教师培训的对外表达，不按字幕逐句展开。</p>
+                <p class="caption">片段仅作参考。正文按照教师可用的 Prompt 回顾重新组织，不按字幕逐句展开。</p>
             </div>
         </section>
 
@@ -603,7 +594,7 @@
             <aside class="toc-rail" aria-label="目录">
                 <p class="toc-title">目录</p>
                 <nav>
-                    <a class="is-active" href="#point">这 6 分钟要说什么</a>
+                    <a class="is-active" href="#point">Prompt 回顾要点</a>
                     <a href="#translate">把工程语言翻译成教师语言</a>
                     <a href="#limits">AI 为什么不能直接拿来用</a>
                     <a href="#prompt">提示词不是咒语</a>
@@ -616,19 +607,19 @@
 
             <article class="article-body">
                 <section class="article-section" id="point">
-                    <h2>这 6 分钟真正要说什么</h2>
-                    <p class="lead">视频开头讲的是 AI Engineer / AI Builder，但放到教师场景里，它真正提醒我们的不是“人人都要学编程”，而是：未来的老师要学会把教学目标、学生情况、材料和评价标准，组织成 AI 能执行、自己能判断的工作流程。</p>
-                    <p>很多老师第一次接触 AI，会把它理解成一个更聪明的搜索框，或者一个可以自动写作文、写教案的工具。但视频里的核心判断更进一步：基础模型本身并不等于可用的教学能力。真正有价值的部分，是我们如何给它材料、给它边界、给它任务，并在输出之后做判断。</p>
+                    <h2>Prompt 回顾要点</h2>
+                    <p class="lead">这页真正要回顾的不是某个技术身份，也不是让老师去学编程，而是：如何把教学目标、学生情况、材料和评价标准，组织成 AI 能执行、老师能判断的工作流程。</p>
+                    <p>很多老师第一次接触 AI，会把它理解成一个更聪明的搜索框，或者一个可以自动写作文、写教案的工具。但这套思路更进一步：基础模型本身并不等于可用的教学能力。真正有价值的部分，是我们如何给它材料、给它边界、给它任务，并在输出之后做判断。</p>
                     <div class="quote">对老师来说，AI 不应该替代教学判断。它更像一个反应很快的助教，需要老师把目标、对象、规则和检查标准说清楚。</div>
-                    <p>所以，这份页面的重点不是介绍复杂技术名词，而是把视频里的概念转成教师培训时能用的语言：AI 有哪些边界，提示词到底该怎么写，哪些任务适合交给 AI，哪些地方必须由老师把关。</p>
+                    <p>所以，这份页面的重点不是介绍复杂技术名词，而是把 AI 工程里的思路转成教师培训时能用的语言：AI 有哪些边界，Prompt 到底该怎么写，哪些任务适合交给 AI，哪些地方必须由老师把关。</p>
                 </section>
 
                 <section class="article-section" id="translate">
                     <h2>把工程语言翻译成教师语言</h2>
-                    <p>视频里提到，AI 能力增强有两条路。一条是换更强的基础模型，另一条是在现有模型上叠加方法和流程。对学校和老师来说，真正能做的是第二条：不追逐每一个新模型，而是学会设计任务、整理材料、检查结果。</p>
+                    <p>从 AI 工程角度看，能力增强有两条路。一条是换更强的基础模型，另一条是在现有模型上叠加方法和流程。对学校和老师来说，真正能做的是第二条：不追逐每一个新模型，而是学会设计任务、整理材料、检查结果。</p>
                     <div class="table-scroll">
                         <table>
-                            <thead><tr><th>视频里的说法</th><th>教师可以这样理解</th><th>在学校里对应什么</th></tr></thead>
+                            <thead><tr><th>工程里的说法</th><th>教师可以这样理解</th><th>在学校里对应什么</th></tr></thead>
                             <tbody>
                                 <tr><td>Base Model</td><td>一个知识很多、反应很快，但不了解本班学生和本校要求的助教。</td><td>不能直接让它决定教学内容，需要老师给材料和边界。</td></tr>
                                 <tr><td>Augmenting LLM</td><td>给 AI 加上教材、学情、流程、评价标准和复核步骤。</td><td>把 AI 从“会说”变成“能协助完成具体教学任务”。</td></tr>
@@ -642,7 +633,7 @@
 
                 <section class="article-section" id="limits">
                     <h2>AI 为什么不能直接拿来用</h2>
-                    <p>视频提到基础模型的几个限制。换成教师场景，可以理解为下面四件事。</p>
+                    <p>基础模型有几个常见限制。换成教师场景，可以理解为下面四件事。</p>
                     <ol>
                         <li><strong>它不知道你的班级。</strong> AI 不知道学生的真实基础、课堂氛围、家校关系、学校要求，也不知道某个孩子最近发生了什么。</li>
                         <li><strong>它可能不知道最新情况。</strong> 新教材、新政策、新通知、本校活动安排，都不能默认由 AI 准确掌握。</li>
@@ -653,9 +644,9 @@
                         <p><strong>给老师的判断：</strong>AI 的问题不在于“能不能用”，而在于“能不能带着边界用”。它适合协助生成、整理、比较、改写；不适合单独决定评价、处理隐私、替学生完成思考。</p>
                     </div>
                     <div class="image-grid">
-                        <figure><img src="assets/video_first6_ai_builder.jpg" alt="AI Engineer / AI Builder 开场画面"><figcaption>AI Builder 的核心是把能力落到具体任务</figcaption></figure>
+                        <figure><img src="assets/video_first6_ai_builder.jpg" alt="AI Builder 概念画面"><figcaption>把 AI 能力落到具体任务</figcaption></figure>
                         <figure><img src="assets/video_first6_lost_middle.jpg" alt="Lost in the Middle 画面"><figcaption>长材料中间信息容易被忽略</figcaption></figure>
-                        <figure><img src="assets/video_first6_prompt_example.jpg" alt="Prompt 范例画面"><figcaption>好提示词要说清对象、格式和重点</figcaption></figure>
+                        <figure><img src="assets/video_first6_prompt_example.jpg" alt="Prompt 范例画面"><figcaption>好 Prompt 要说清对象、格式和重点</figcaption></figure>
                     </div>
                 </section>
 
@@ -727,7 +718,7 @@
 
                 <section class="article-section" id="workflow">
                     <h2>把提示词变成工作流</h2>
-                    <p>视频最后引出 Prompt Chaining。给老师讲这个概念，可以不用说得太技术化。它的意思是：不要指望一句提示词完成所有事情，而是把一个复杂任务拆成几轮，让 AI 在每一轮只完成一件清楚的事。</p>
+                    <p>Prompt Chaining 可以不用讲得太技术化。它的意思是：不要指望一句提示词完成所有事情，而是把一个复杂任务拆成几轮，让 AI 在每一轮只完成一件清楚的事。</p>
                     <div class="table-scroll">
                         <table>
                             <thead><tr><th>步骤</th><th>教师要做什么</th><th>可以这样提示 AI</th></tr></thead>
@@ -747,7 +738,7 @@
 
                 <section class="article-section" id="modes">
                     <h2>两种协作方式：委托型和共创型</h2>
-                    <p>视频里提到 Centaur 和 Cyborg。给老师讲时，可以翻译成两种更容易理解的方式。</p>
+                    <p>在人机协作中，可以把教师和 AI 的配合方式理解成两类：委托型和共创型。</p>
                     <div class="table-scroll">
                         <table>
                             <thead><tr><th>方式</th><th>怎么用</th><th>适合教师做什么</th><th>风险</th></tr></thead>
@@ -762,7 +753,7 @@
 
                 <section class="article-section" id="rules">
                     <h2>给老师的使用底线</h2>
-                    <p>如果要把这 6 分钟内容讲给老师，最后应该落到几条非常清楚的底线。</p>
+                    <p>给老师做 Prompt 回顾，最后应该落到几条非常清楚的底线。</p>
                     <ul class="checklist">
                         <li><span>AI 可以帮老师生成初稿，但不能替老师做最终判断。</span></li>
                         <li><span>涉及学生隐私、成绩、家庭情况的内容，不要直接输入公共 AI 工具。</span></li>
@@ -777,7 +768,7 @@
     </main>
 
     <footer class="footer">
-        <div class="footer-inner">本页根据本地视频前 6 分钟内容改写为教师培训展示稿，重点放在可对外讲述、可被老师直接使用的提示词与教学工作流。</div>
+        <div class="footer-inner">本页整理为教师培训展示稿，重点放在可对外讲述、可被老师直接使用的 Prompt 与教学工作流。</div>
     </footer>
     <a class="back-top" href="#top" aria-label="回到顶部">↑</a>
 
