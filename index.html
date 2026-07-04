@@ -12,11 +12,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
     <style>
-      .column-link {
+      .column-links {
         position: fixed;
         top: 18px;
         right: 18px;
         z-index: 80;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .column-link {
         display: inline-flex;
         align-items: center;
         height: 38px;
@@ -31,16 +37,27 @@
         text-decoration: none;
       }
 
+      .column-link.is-current {
+        color: #111111;
+        background: rgba(255, 255, 255, 0.96);
+      }
+
       .column-link:hover {
         color: #1e40af;
         border-color: rgba(30, 64, 175, 0.24);
       }
 
       @media (max-width: 760px) {
+        .column-links {
+          top: 12px;
+          right: 12px;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+
         .column-link {
-          top: auto;
-          right: 16px;
-          bottom: 16px;
+          height: 34px;
+          padding: 0 12px;
         }
       }
     </style>
@@ -49,7 +66,11 @@
   </head>
 
   <body>
-    <a class="column-link" href="./ai-history.html">AI 发展史专栏</a>
+    <nav class="column-links" aria-label="页面导航">
+      <a class="column-link is-current" href="./">人工智能如水</a>
+      <a class="column-link" href="./ai-history.html">AI 发展史</a>
+      <a class="column-link" href="./video-first6.html">前 6 分钟</a>
+    </nav>
     <div id="root"></div>
   </body>
 

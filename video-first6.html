@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给老师看的 AI 工具课 - OpenAI 参考版</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #0c0c0c;
+            --muted: #6b6b6b;
+            --faint: #8f8f8f;
+            --line: #dedede;
+            --soft: #f6f6f3;
+            --soft-2: #fafafa;
+            --shell: 1660px;
+            --page-pad: 0px;
+            --toc: 372px;
+            --gap: 188px;
+            --article: 820px;
+            --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--bg);
+            font-family: var(--sans);
+            letter-spacing: 0;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        a { color: inherit; text-decoration: none; }
+        strong { font-weight: 760; }
+        code {
+            padding: 0.08em 0.34em;
+            border-radius: 5px;
+            color: #111;
+            background: #eeeeec;
+            font-family: "SF Mono", "Cascadia Code", "Menlo", monospace;
+            font-size: 0.9em;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid rgba(12, 12, 12, 0.12);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(18px);
+        }
+        .nav {
+            display: grid;
+            grid-template-columns: max-content 1fr auto;
+            gap: 44px;
+            align-items: center;
+            max-width: var(--shell);
+            min-height: 64px;
+            margin: 0 auto;
+            padding: 0 var(--page-pad);
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 19px;
+            line-height: 1;
+            font-weight: 720;
+        }
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            border: 1.6px solid var(--ink);
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 760;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: flex-start;
+            gap: 34px;
+            color: #202020;
+            font-size: 15px;
+            line-height: 22px;
+            font-weight: 560;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 560;
+        }
+        .pill-button {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 0 18px;
+            border: 1px solid var(--ink);
+            border-radius: 999px;
+            color: #fff;
+            background: var(--ink);
+        }
+
+        .hero {
+            max-width: var(--shell);
+            margin: 0 auto;
+            padding: 94px var(--page-pad) 0;
+            text-align: center;
+        }
+        .kicker {
+            margin: 0 0 34px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 25px;
+            font-weight: 620;
+        }
+        h1 {
+            max-width: 1040px;
+            margin: 0 auto;
+            font-size: 72px;
+            line-height: 1.03;
+            font-weight: 790;
+            letter-spacing: 0;
+        }
+        .hero-subtitle {
+            max-width: 820px;
+            margin: 34px auto 0;
+            color: #252525;
+            font-size: 22px;
+            line-height: 1.62;
+            font-weight: 430;
+        }
+        .byline {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 22px;
+            margin-top: 38px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 24px;
+        }
+
+        .listen-strip {
+            max-width: var(--shell);
+            margin: 78px auto 0;
+            padding: 0 var(--page-pad);
+        }
+        .listen-inner {
+            width: var(--article);
+            min-height: 76px;
+            margin-left: calc(var(--toc) + var(--gap));
+            border-top: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #111;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 650;
+        }
+        .listen-left,
+        .listen-right { display: inline-flex; align-items: center; gap: 14px; }
+        .listen-play {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #f1f1ef;
+            font-size: 15px;
+            line-height: 1;
+        }
+        .listen-time { color: #555; font-weight: 520; }
+
+        .media-shell {
+            max-width: var(--shell);
+            margin: 42px auto 0;
+            padding: 0 var(--page-pad);
+        }
+        .media-card {
+            width: var(--article);
+            margin-left: calc(var(--toc) + var(--gap));
+        }
+        video {
+            display: block;
+            width: 100%;
+            background: #111;
+        }
+        .caption {
+            margin: 13px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 22px;
+        }
+
+        .article-frame {
+            display: grid;
+            grid-template-columns: var(--toc) minmax(0, var(--article));
+            gap: var(--gap);
+            justify-content: start;
+            max-width: var(--shell);
+            margin: 0 auto;
+            padding: 72px var(--page-pad) 132px;
+        }
+        .toc-rail {
+            position: sticky;
+            top: 96px;
+            align-self: start;
+            max-height: calc(100vh - 118px);
+            overflow: auto;
+            padding-right: 8px;
+        }
+        .toc-title {
+            margin: 0 0 16px;
+            color: var(--ink);
+            font-size: 18px;
+            line-height: 26px;
+            font-weight: 680;
+        }
+        .toc-rail nav { display: grid; gap: 8px; }
+        .toc-rail a {
+            display: block;
+            padding: 13px 20px;
+            border-radius: 8px;
+            color: #747474;
+            font-size: 18px;
+            line-height: 26px;
+            font-weight: 560;
+        }
+        .toc-rail a:hover,
+        .toc-rail a.is-active {
+            color: #111;
+            background: #f3f3f1;
+        }
+        .toc-rail a.is-active { font-weight: 700; }
+
+        .article-body { width: 100%; }
+        .article-section {
+            margin: 0;
+            padding: 0 0 76px;
+            scroll-margin-top: 96px;
+        }
+        .article-section + .article-section {
+            border-top: 1px solid var(--line);
+            padding-top: 72px;
+        }
+        .article-section h2 {
+            margin: 0 0 28px;
+            font-size: 36px;
+            line-height: 1.22;
+            font-weight: 760;
+            letter-spacing: 0;
+        }
+        .article-section h3 {
+            margin: 46px 0 16px;
+            font-size: 24px;
+            line-height: 1.28;
+            font-weight: 720;
+            letter-spacing: 0;
+        }
+        .article-section p,
+        .article-section li {
+            color: #171717;
+            font-size: 20px;
+            line-height: 1.78;
+            font-weight: 430;
+        }
+        .article-section p { margin: 0 0 24px; }
+        .article-section ul,
+        .article-section ol {
+            margin: 22px 0 32px;
+            padding-left: 1.18em;
+        }
+        .article-section li {
+            padding-left: 5px;
+            margin-bottom: 12px;
+        }
+        .lead {
+            font-size: 23px !important;
+            line-height: 1.62 !important;
+            font-weight: 470 !important;
+        }
+        .quote {
+            margin: 38px 0;
+            padding: 0 0 0 26px;
+            border-left: 2px solid var(--ink);
+            color: #111;
+            font-size: 26px;
+            line-height: 1.52;
+            font-weight: 760;
+            letter-spacing: 0;
+        }
+        .soft-block {
+            margin: 34px 0;
+            padding: 28px;
+            border: 1px solid var(--line);
+            background: var(--soft);
+        }
+        .soft-block p:last-child { margin-bottom: 0; }
+
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            margin: 34px 0 50px;
+        }
+        table {
+            width: 100%;
+            min-width: 720px;
+            border-collapse: collapse;
+            font-size: 16px;
+            line-height: 1.56;
+        }
+        th,
+        td {
+            padding: 15px 12px;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.42;
+            font-weight: 720;
+        }
+        td {
+            color: #151515;
+            font-size: 17px;
+            line-height: 1.62;
+        }
+
+        .example-pair {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin: 30px 0 42px;
+        }
+        .example {
+            border-top: 1px solid var(--line);
+            padding-top: 18px;
+        }
+        .example-label {
+            margin: 0 0 10px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 720;
+        }
+        .prompt-box {
+            margin: 0;
+            padding: 20px 22px;
+            border: 1px solid var(--line);
+            background: #fbfbfa;
+            color: #111;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: var(--sans);
+            font-size: 17px;
+            line-height: 1.7;
+            font-weight: 460;
+        }
+        .template-list {
+            display: grid;
+            gap: 36px;
+            margin-top: 30px;
+        }
+        .template-item {
+            padding-top: 26px;
+            border-top: 1px solid var(--line);
+        }
+        .template-item h3 { margin-top: 0; }
+        .template-note {
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 24px;
+        }
+        .checklist {
+            margin: 32px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .checklist li {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            gap: 12px;
+            padding: 15px 0;
+            border-top: 1px solid var(--line);
+            margin: 0;
+        }
+        .checklist li::before {
+            content: "✓";
+            color: #111;
+            font-weight: 800;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin: 34px 0;
+        }
+        .image-grid figure { margin: 0; }
+        .image-grid img {
+            width: 100%;
+            display: block;
+            filter: grayscale(1) contrast(1.08);
+        }
+        .image-grid figcaption {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 19px;
+        }
+
+        .footer {
+            border-top: 1px solid var(--line);
+            padding: 34px 0 52px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 22px;
+        }
+        .footer-inner {
+            max-width: var(--shell);
+            margin: 0 auto;
+            padding: 0 var(--page-pad);
+        }
+        .back-top {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--ink);
+            border-radius: 50%;
+            color: #fff;
+            background: var(--ink);
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1700px) {
+            :root {
+                --shell: auto;
+                --page-pad: 64px;
+                --toc: 372px;
+                --gap: 188px;
+                --article: 820px;
+            }
+            .toc-rail a { font-size: 16px; line-height: 24px; }
+        }
+        @media (max-width: 1280px) {
+            :root {
+                --page-pad: 32px;
+                --toc: 260px;
+                --gap: 56px;
+                --article: 1fr;
+            }
+            .article-frame { grid-template-columns: var(--toc) minmax(0, 1fr); }
+            .listen-inner,
+            .media-card {
+                width: auto;
+                margin-left: calc(var(--toc) + var(--gap));
+            }
+            .toc-rail a {
+                padding: 11px 14px;
+                font-size: 15px;
+                line-height: 22px;
+            }
+            h1 { font-size: 62px; }
+        }
+        @media (max-width: 920px) {
+            .nav {
+                grid-template-columns: 1fr auto;
+                padding: 0 20px;
+            }
+            .nav-links {
+                grid-column: 1 / -1;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 14px;
+            }
+            .nav-actions span { display: none; }
+            .hero { padding: 54px 20px 26px; }
+            h1 { font-size: 50px; line-height: 1.12; }
+            .hero-subtitle { font-size: 20px; line-height: 1.6; }
+            .listen-strip,
+            .media-shell {
+                margin-top: 42px;
+                padding: 0 20px;
+            }
+            .listen-inner,
+            .media-card {
+                width: auto;
+                margin-left: 0;
+            }
+            .article-frame {
+                display: block;
+                padding: 48px 20px 100px;
+            }
+            .toc-rail {
+                position: static;
+                max-height: none;
+                margin-bottom: 54px;
+            }
+            .toc-rail nav {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0 20px;
+            }
+            .toc-rail a {
+                padding: 12px 0;
+                font-size: 16px;
+                line-height: 23px;
+            }
+            .toc-rail a.is-active {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+            .article-section { padding-bottom: 58px; }
+            .article-section + .article-section { padding-top: 56px; }
+            .article-section h2 { font-size: 30px; line-height: 1.3; }
+            .article-section p,
+            .article-section li { font-size: 18px; line-height: 1.76; }
+            .lead { font-size: 20px !important; }
+            .quote { font-size: 22px; }
+            .soft-block { padding: 22px; }
+            .image-grid { grid-template-columns: 1fr; }
+            .back-top { right: 16px; bottom: 16px; }
+        }
+        @media (max-width: 560px) {
+            .nav-actions { display: none; }
+            .toc-rail nav { grid-template-columns: 1fr; }
+            .listen-inner { min-height: 66px; font-size: 14px; }
+            .listen-right { display: none; }
+            h1 { font-size: 38px; }
+            .hero-subtitle { font-size: 18px; }
+            .article-section h2 { font-size: 27px; }
+            .article-section p,
+            .article-section li { font-size: 16px; }
+            .quote {
+                padding-left: 18px;
+                font-size: 20px;
+            }
+            .prompt-box { font-size: 15px; }
+            .checklist li { grid-template-columns: 24px 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header" id="top">
+        <nav class="nav" aria-label="页面导航">
+            <a class="brand" href="#top" aria-label="回到顶部"><span class="brand-mark">AI</span><span>Teacher Flow</span></a>
+            <div class="nav-links">
+                <a href="#point">核心判断</a>
+                <a href="#limits">使用边界</a>
+                <a href="#prompt">提示词</a>
+                <a href="#templates">模板</a>
+                <a href="#workflow">工作流</a>
+            </div>
+            <div class="nav-actions"><span>简体中文</span><a class="pill-button" href="#clip">查看片段</a></div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="kicker">教师培训稿 · 基于视频前 6 分钟重写</p>
+            <h1>给老师看的 AI 工具课：从提示词到教学工作流</h1>
+            <p class="hero-subtitle">这不是逐字稿，而是一份可以对外分享的讲解页面：把视频里的 AI 工程概念，翻译成老师能理解、能判断、能直接使用的教学语言。</p>
+            <div class="byline"><span>适用对象：一线教师、教研组、校本培训</span><span>重点：提示词、边界、任务设计</span><span>时长素材：00:00-06:00</span></div>
+        </section>
+
+        <section class="listen-strip" aria-label="素材入口">
+            <div class="listen-inner">
+                <div class="listen-left"><span class="listen-play" aria-hidden="true">▶</span><span>原视频片段</span><span class="listen-time">06:00</span></div>
+                <div class="listen-right"><span aria-hidden="true">↗</span><span>分享</span></div>
+            </div>
+        </section>
+
+        <section class="media-shell" id="clip" aria-label="视频片段">
+            <div class="media-card">
+                <video controls preload="metadata" poster="assets/video_first6_ai_builder.jpg"><source src="assets/videoplayback_first6.mp4" type="video/mp4"></video>
+                <p class="caption">视频只作为内容来源。下面的正文已改写成面向教师培训的对外表达，不按字幕逐句展开。</p>
+            </div>
+        </section>
+
+        <div class="article-frame">
+            <aside class="toc-rail" aria-label="目录">
+                <p class="toc-title">目录</p>
+                <nav>
+                    <a class="is-active" href="#point">这 6 分钟要说什么</a>
+                    <a href="#translate">把工程语言翻译成教师语言</a>
+                    <a href="#limits">AI 为什么不能直接拿来用</a>
+                    <a href="#prompt">提示词不是咒语</a>
+                    <a href="#templates">教师可直接使用的提示词模板</a>
+                    <a href="#workflow">把提示词变成工作流</a>
+                    <a href="#modes">两种协作方式</a>
+                    <a href="#rules">给老师的使用底线</a>
+                </nav>
+            </aside>
+
+            <article class="article-body">
+                <section class="article-section" id="point">
+                    <h2>这 6 分钟真正要说什么</h2>
+                    <p class="lead">视频开头讲的是 AI Engineer / AI Builder，但放到教师场景里，它真正提醒我们的不是“人人都要学编程”，而是：未来的老师要学会把教学目标、学生情况、材料和评价标准，组织成 AI 能执行、自己能判断的工作流程。</p>
+                    <p>很多老师第一次接触 AI，会把它理解成一个更聪明的搜索框，或者一个可以自动写作文、写教案的工具。但视频里的核心判断更进一步：基础模型本身并不等于可用的教学能力。真正有价值的部分，是我们如何给它材料、给它边界、给它任务，并在输出之后做判断。</p>
+                    <div class="quote">对老师来说，AI 不应该替代教学判断。它更像一个反应很快的助教，需要老师把目标、对象、规则和检查标准说清楚。</div>
+                    <p>所以，这份页面的重点不是介绍复杂技术名词，而是把视频里的概念转成教师培训时能用的语言：AI 有哪些边界，提示词到底该怎么写，哪些任务适合交给 AI，哪些地方必须由老师把关。</p>
+                </section>
+
+                <section class="article-section" id="translate">
+                    <h2>把工程语言翻译成教师语言</h2>
+                    <p>视频里提到，AI 能力增强有两条路。一条是换更强的基础模型，另一条是在现有模型上叠加方法和流程。对学校和老师来说，真正能做的是第二条：不追逐每一个新模型，而是学会设计任务、整理材料、检查结果。</p>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>视频里的说法</th><th>教师可以这样理解</th><th>在学校里对应什么</th></tr></thead>
+                            <tbody>
+                                <tr><td>Base Model</td><td>一个知识很多、反应很快，但不了解本班学生和本校要求的助教。</td><td>不能直接让它决定教学内容，需要老师给材料和边界。</td></tr>
+                                <tr><td>Augmenting LLM</td><td>给 AI 加上教材、学情、流程、评价标准和复核步骤。</td><td>把 AI 从“会说”变成“能协助完成具体教学任务”。</td></tr>
+                                <tr><td>Prompt Engineering</td><td>把教学意图说清楚的能力。</td><td>不是背万能句式，而是把对象、任务、格式、限制讲明白。</td></tr>
+                                <tr><td>Prompt Chaining</td><td>把一个大任务拆成几轮小任务。</td><td>先生成方案，再让 AI 自查，再由老师修改，最后形成可用材料。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>这套翻译很重要。只有把技术词变成教学语言，老师才不会被概念吓住，也不会误以为“输入一句话，AI 就应该给出完美答案”。</p>
+                </section>
+
+                <section class="article-section" id="limits">
+                    <h2>AI 为什么不能直接拿来用</h2>
+                    <p>视频提到基础模型的几个限制。换成教师场景，可以理解为下面四件事。</p>
+                    <ol>
+                        <li><strong>它不知道你的班级。</strong> AI 不知道学生的真实基础、课堂氛围、家校关系、学校要求，也不知道某个孩子最近发生了什么。</li>
+                        <li><strong>它可能不知道最新情况。</strong> 新教材、新政策、新通知、本校活动安排，都不能默认由 AI 准确掌握。</li>
+                        <li><strong>它的输出不稳定。</strong> 同一个问题，多问几次可能得到不同版本。它可以给灵感，但不能直接替老师做最终决定。</li>
+                        <li><strong>材料太长时会漏重点。</strong> 即使把很多资料都塞进去，AI 也可能忽略中间的小细节。长材料要分段处理，并设置检查清单。</li>
+                    </ol>
+                    <div class="soft-block">
+                        <p><strong>给老师的判断：</strong>AI 的问题不在于“能不能用”，而在于“能不能带着边界用”。它适合协助生成、整理、比较、改写；不适合单独决定评价、处理隐私、替学生完成思考。</p>
+                    </div>
+                    <div class="image-grid">
+                        <figure><img src="assets/video_first6_ai_builder.jpg" alt="AI Engineer / AI Builder 开场画面"><figcaption>AI Builder 的核心是把能力落到具体任务</figcaption></figure>
+                        <figure><img src="assets/video_first6_lost_middle.jpg" alt="Lost in the Middle 画面"><figcaption>长材料中间信息容易被忽略</figcaption></figure>
+                        <figure><img src="assets/video_first6_prompt_example.jpg" alt="Prompt 范例画面"><figcaption>好提示词要说清对象、格式和重点</figcaption></figure>
+                    </div>
+                </section>
+
+                <section class="article-section" id="prompt">
+                    <h2>提示词不是咒语，是教学任务说明</h2>
+                    <p class="lead">给老师讲提示词，不建议从“万能 Prompt 模板”开始。更好的说法是：提示词就是一份微型任务书。它要让 AI 明白你是谁、给谁用、要产出什么、哪些地方不能越界。</p>
+                    <p>一个可用的教学提示词，至少要包含三件事。</p>
+                    <ul class="checklist">
+                        <li><span><strong>对象：</strong>这份内容给谁看？学生、家长、教研组、班主任，还是老师自己备课用？年级和学生基础是什么？</span></li>
+                        <li><span><strong>格式：</strong>你要的是表格、课堂流程、分层问题、板书结构、活动方案、家长通知，还是评价用语？</span></li>
+                        <li><span><strong>重点和边界：</strong>希望它关注什么？不能做什么？是否需要避免替学生作答、避免泄露隐私、避免未经核实的事实？</span></li>
+                    </ul>
+                    <h3>同一个任务，提示词质量会决定输出质量</h3>
+                    <div class="example-pair">
+                        <div class="example">
+                            <p class="example-label">不建议这样写</p>
+                            <pre class="prompt-box">帮我设计一节课。</pre>
+                        </div>
+                        <div class="example">
+                            <p class="example-label">可以这样写</p>
+                            <pre class="prompt-box">请帮我设计一节三年级科学《水的三态》导入活动。对象是 8-9 岁学生，时长 8 分钟，材料要常见且安全。请输出：活动步骤、教师提问、学生可能回答、需要教师现场判断的风险点。不要替学生给出完整结论，而是帮助学生通过观察自己说出来。</pre>
+                        </div>
+                    </div>
+                    <p>第二个版本并不是更“高级”，而是更像教师真实下达任务：它说明了年级、内容、时长、材料限制、输出格式和教学立场。AI 才知道它不是在写一篇文章，而是在帮助老师准备一个可以进入课堂的活动。</p>
+                </section>
+
+                <section class="article-section" id="templates">
+                    <h2>教师可直接使用的提示词模板</h2>
+                    <p>下面这些模板可以直接拿给老师使用。它们的共同点是：先限定教学对象，再限定输出格式，最后加上教师必须把关的边界。</p>
+
+                    <div class="template-list">
+                        <div class="template-item">
+                            <h3>1. 备课导入：把主题变成课堂入口</h3>
+                            <pre class="prompt-box">请为【年级/学科/课题】设计一个课堂导入。学生特点是【基础、兴趣、常见误区】。导入时长控制在【分钟数】以内，材料必须【常见/安全/低成本】。请输出：导入情境、教师提问、学生可能回答、教师追问、需要避免的误导。不要直接给出标准答案，要保留学生观察和表达的空间。</pre>
+                            <p class="template-note">适合：新课导入、公开课试讲、校本研修中的教学活动设计。</p>
+                        </div>
+
+                        <div class="template-item">
+                            <h3>2. 阅读追问：把“读懂了吗”拆成层次</h3>
+                            <pre class="prompt-box">请根据下面这篇课文/材料，生成 6 个阅读追问，分为三层：基础理解、情感体会、开放表达。每个问题请说明训练目标，并标注学生可能卡住的地方。不要把问题设计成只需要抄原文就能回答，也不要替学生写完整答案。</pre>
+                            <p class="template-note">适合：语文阅读、英语阅读、道法材料分析、跨学科文本讨论。</p>
+                        </div>
+
+                        <div class="template-item">
+                            <h3>3. 作业分层：让任务有梯度，而不是简单加量</h3>
+                            <pre class="prompt-box">请围绕【知识点/课题】设计一组分层作业，面向【年级】学生。分为基础巩固、迁移应用、挑战拓展三层。每层给出 2 个任务，并说明任务目的、预计用时和教师批改关注点。请避免机械重复训练，挑战题不要超出学生已经具备的前置知识太多。</pre>
+                            <p class="template-note">适合：减负背景下的作业设计、课后服务、分层辅导。</p>
+                        </div>
+
+                        <div class="template-item">
+                            <h3>4. 课堂活动：把想法变成可执行流程</h3>
+                            <pre class="prompt-box">请把“【活动想法】”改写成一份课堂活动流程。对象是【年级/人数】学生，课堂时长【分钟数】。请输出：准备材料、分组方式、教师指令、学生任务、时间安排、可能失控的环节和应对策略。要求活动有明确学习目标，不只是热闹。</pre>
+                            <p class="template-note">适合：综合实践、科学探究、小组合作、项目化学习。</p>
+                        </div>
+
+                        <div class="template-item">
+                            <h3>5. 教研纪要：把讨论整理成行动</h3>
+                            <pre class="prompt-box">请把以下教研记录整理成三部分：已经达成的共识、仍然存在的分歧、下一步行动。请用客观中性的语言，不评价具体老师，不扩写没有出现的信息。每条行动请写明负责人、时间节点和需要准备的材料，如果原文没有提到，请标注“待确认”。</pre>
+                            <p class="template-note">适合：备课组会议、听评课记录、课题组讨论。</p>
+                        </div>
+
+                        <div class="template-item">
+                            <h3>6. 家校沟通：清楚、尊重、不泄露隐私</h3>
+                            <pre class="prompt-box">请把下面的活动说明改写成一则家长通知。语气要清楚、简洁、尊重，适合发到班级群。不要包含学生姓名、成绩、家庭情况等隐私信息。请输出两个版本：正式版和更亲和的口语版，并列出发布前需要老师核对的 3 个事实。</pre>
+                            <p class="template-note">适合：活动通知、材料收集、家校提醒、班级事务沟通。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="article-section" id="workflow">
+                    <h2>把提示词变成工作流</h2>
+                    <p>视频最后引出 Prompt Chaining。给老师讲这个概念，可以不用说得太技术化。它的意思是：不要指望一句提示词完成所有事情，而是把一个复杂任务拆成几轮，让 AI 在每一轮只完成一件清楚的事。</p>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>步骤</th><th>教师要做什么</th><th>可以这样提示 AI</th></tr></thead>
+                            <tbody>
+                                <tr><td>1. 明确目标</td><td>先说清课堂目标、学生对象和材料范围。</td><td>“请先帮我判断这个课题适合设计哪些学习目标，不要直接写完整教案。”</td></tr>
+                                <tr><td>2. 生成初稿</td><td>让 AI 给出结构，而不是马上要最终稿。</td><td>“基于上面的目标，生成三个课堂活动方案，每个方案说明适用情境。”</td></tr>
+                                <tr><td>3. 对照学情</td><td>把本班情况补进去，让 AI 调整。</td><td>“我们班学生表达积极，但观察记录能力弱，请把方案改得更适合他们。”</td></tr>
+                                <tr><td>4. 要求自查</td><td>让 AI 找风险、漏洞和不适合的地方。</td><td>“请检查这个方案有哪些可能过难、过空或无法落地的环节。”</td></tr>
+                                <tr><td>5. 教师定稿</td><td>老师做最后判断，改成本班可用版本。</td><td>“请根据我保留的部分，整理成 8 分钟课堂流程表。”</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="soft-block">
+                        <p><strong>一句话总结：</strong>提示词链不是为了让 AI 更神奇，而是为了让老师更可控。每拆一步，老师就多一次判断和修正的机会。</p>
+                    </div>
+                </section>
+
+                <section class="article-section" id="modes">
+                    <h2>两种协作方式：委托型和共创型</h2>
+                    <p>视频里提到 Centaur 和 Cyborg。给老师讲时，可以翻译成两种更容易理解的方式。</p>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>方式</th><th>怎么用</th><th>适合教师做什么</th><th>风险</th></tr></thead>
+                            <tbody>
+                                <tr><td>委托型</td><td>把流程清楚、标准明确的任务交给 AI 先出稿。</td><td>会议纪要、通知初稿、资料整理、活动流程初稿。</td><td>容易不核对就转发，导致事实错误或语气不合适。</td></tr>
+                                <tr><td>共创型</td><td>老师和 AI 一轮一轮讨论，边改边判断。</td><td>课堂提问、作业分层、评价语言、公开课磨课。</td><td>耗时更长，但更适合需要教学判断的任务。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>这两种方式没有高低之分。关键是：重复性高、流程明确的事情可以委托；涉及学生差异、价值判断、课堂生成的事情，必须共创。</p>
+                </section>
+
+                <section class="article-section" id="rules">
+                    <h2>给老师的使用底线</h2>
+                    <p>如果要把这 6 分钟内容讲给老师，最后应该落到几条非常清楚的底线。</p>
+                    <ul class="checklist">
+                        <li><span>AI 可以帮老师生成初稿，但不能替老师做最终判断。</span></li>
+                        <li><span>涉及学生隐私、成绩、家庭情况的内容，不要直接输入公共 AI 工具。</span></li>
+                        <li><span>AI 给出的事实、政策、教材信息，要回到原始来源核对。</span></li>
+                        <li><span>不要让 AI 替学生完成本应由学生思考、表达、犯错和修正的过程。</span></li>
+                        <li><span>老师真正要学的不是“神奇提示词”，而是把教学任务说清楚、拆清楚、查清楚。</span></li>
+                    </ul>
+                    <div class="quote">提示词能力，本质上是教师专业判断的一种新表达：你越知道自己要什么，AI 越可能帮到你。</div>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">本页根据本地视频前 6 分钟内容改写为教师培训展示稿，重点放在可对外讲述、可被老师直接使用的提示词与教学工作流。</div>
+    </footer>
+    <a class="back-top" href="#top" aria-label="回到顶部">↑</a>
+
+    <script>
+        const tocLinks = Array.from(document.querySelectorAll('.toc-rail a'));
+        const sections = tocLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+        const setActive = (id) => {
+            tocLinks.forEach((link) => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`));
+        };
+        const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+            if (visible[0]) setActive(visible[0].target.id);
+        }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.2, 0.6] });
+        sections.forEach((section) => observer.observe(section));
+    </script>
+</body>
+</html>
