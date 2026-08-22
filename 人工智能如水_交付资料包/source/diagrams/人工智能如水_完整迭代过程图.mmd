@@ -1,0 +1,19 @@
+flowchart LR
+  classDef input fill:#F8FAFC,stroke:#64748B,color:#0F172A,stroke-width:1.5px;
+  classDef build fill:#EFF6FF,stroke:#2563EB,color:#172554,stroke-width:1.5px;
+  classDef feedback fill:#FFF1F2,stroke:#E11D48,color:#881337,stroke-width:1.5px;
+  classDef refine fill:#F5F3FF,stroke:#7C3AED,color:#2E1065,stroke-width:1.5px;
+  classDef archive fill:#ECFDF5,stroke:#059669,color:#064E3B,stroke-width:1.5px;
+  classDef deliver fill:#FFF7ED,stroke:#EA580C,color:#7C2D12,stroke-width:2px;
+
+  A([01｜输入与参考<br/>演讲稿 PDF<br/>OpenAI 页面<br/>用户截图]):::input
+  B[02｜理解与设计<br/>提取 8 个章节、案例、Prompt<br/>形成 Pure Prose + 水流隐喻<br/>生成 Hero / Logo / 纹理素材]:::build
+  C[03｜交付首版<br/>衬线标题、左侧目录、阅读进度<br/>编辑型内容卡片与水流背景]:::build
+  D{04｜反馈：更像 OpenAI<br/>保留装饰图，且可切换}:::feedback
+  E[05｜模式系统<br/>极简 / 装饰 / 编辑<br/>衬线 / 无衬线独立切换<br/>循环控件改为三按钮并恢复字体控件]:::refine
+  F{06｜反馈：加入大屏<br/>并复现“最初交付的第一版”}:::feedback
+  G[07｜大屏还原<br/>从 Git 首版快照恢复：<br/>白底、Hero、诗句引言、中文编号目录、<br/>蓝色章节开场与卡片语言]:::refine
+  H[08｜复用与归档<br/>导出设计/提示词/模式规范<br/>打包 article-showcase Skill<br/>同步 GitHub 与项目 ZIP]:::archive
+  I([09｜最终交付<br/>资料包 + 链接验证<br/>类型检查 + 生产构建 + ZIP 校验]):::deliver
+
+  A --> B --> C --> D --> E --> F --> G --> H --> I

@@ -22,6 +22,10 @@
 |  | [2] | [source-code/config/package.json](source-code/config/package.json) | 当前依赖和命令配置。 |
 |  | [3] | [source-code/client/src/pages/Home.tsx](source-code/client/src/pages/Home.tsx) | 当前核心页面实现。 |
 |  | [4] | [source-code/client/src/index.css](source-code/client/src/index.css) | 当前全局样式实现。 |
+| [05_完整迭代过程图说明.md](05_完整迭代过程图说明.md) | [1] | [source/chat-records/项目过程整理记录_非完整逐字聊天记录.md](source/chat-records/项目过程整理记录_非完整逐字聊天记录.md) | 迭代节点的项目过程依据；非完整逐字聊天记录。 |
+|  | [2] | [source/original-docs/todo.md](source/original-docs/todo.md) | 已完成任务清单副本。 |
+|  | [3] | [source/original-docs/ideas.md](source/original-docs/ideas.md) | 原始设计构思。 |
+|  | [4] | [03_项目结构地图.md](03_项目结构地图.md) | 页面、文件与依赖结构说明。 |
 
 ## 未保存离线原文的外部资源
 
